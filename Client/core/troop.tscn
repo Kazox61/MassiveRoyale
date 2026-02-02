@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://tnjodsxnrsty"]
+
+[ext_resource type="Script" uid="uid://cxsrd1ym35r6s" path="res://addons/massive-godot-integration/synchronizer/EntityView2d.cs" id="1_ege1t"]
+[ext_resource type="Texture2D" uid="uid://cvtllpyd13kos" path="res://icon.svg" id="1_ovm5h"]
+[ext_resource type="Script" uid="uid://dws04gt5wbv62" path="res://core/view_behavior/TransformViewBehavior.cs" id="3_y23bv"]
+
+[node name="Troop" type="Node2D" unique_id=615940649 node_paths=PackedStringArray("_viewBehaviors")]
+script = ExtResource("1_ege1t")
+_viewBehaviors = [NodePath("TransformViewBehavior")]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=967168408]
+texture = ExtResource("1_ovm5h")
+
+[node name="TransformViewBehavior" type="Node" parent="." unique_id=2057446774 node_paths=PackedStringArray("_targetNode")]
+script = ExtResource("3_y23bv")
+_targetNode = NodePath("..")

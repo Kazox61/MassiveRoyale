@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://b11b0vfuexxsj"]
+
+[ext_resource type="Script" uid="uid://df7a2wedq2f01" path="res://core/ClientGame.cs" id="1_t7o7j"]
+
+[node name="Game" type="Node2D" unique_id=1386580037]
+
+[node name="MassiveRoyaleRunner" type="Node" parent="." unique_id=1792810289]
+script = ExtResource("1_t7o7j")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=280604985]

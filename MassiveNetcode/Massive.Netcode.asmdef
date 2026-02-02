@@ -1,0 +1,17 @@
+{
+    "name": "Massive.Netcode",
+    "rootNamespace": "",
+    "references": [
+        "Massive",
+        "Massive.Serialization"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}
