@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://dws04gt5wbv62" path="res://core/view_behavior/TransformViewBehavior.cs" id="3_y23bv"]
 
 [node name="Troop" type="Node2D" unique_id=615940649 node_paths=PackedStringArray("_viewBehaviors")]
+scale = Vector2(0.5, 0.5)
 script = ExtResource("1_ege1t")
 _viewBehaviors = [NodePath("TransformViewBehavior")]
 

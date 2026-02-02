@@ -12,6 +12,7 @@ public class GameRunner {
 
 		Session.Systems
 			.New<StartSystem>()
+			.New<MovementSystem>()
 			.Build(Session);
 		
 		var systemSimulation = new SystemsSimulation(Session.Systems);

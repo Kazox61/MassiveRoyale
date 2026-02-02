@@ -16,7 +16,7 @@ public partial class ClientGame : Node {
 		_entitySynchronization.SubscribeViews();
 	}
 	
-	public override void _Process(double delta) {
+	public override void _PhysicsProcess(double delta) {
 		_gameRunner.ProcessTick();
 		_entitySynchronization.SynchronizeViews();
 	}

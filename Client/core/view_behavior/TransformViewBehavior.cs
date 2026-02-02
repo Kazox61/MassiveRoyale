@@ -3,6 +3,7 @@ using Godot;
 using MassiveRoyale.Core.Components;
 using Massive;
 using massivegodotintegration.addons.massive_godot_integration.synchronizer;
+using MassiveRoyale.Core;
 
 namespace MassiveRoyale.Client.core.view_behavior;
 
@@ -29,8 +30,8 @@ public partial class TransformViewBehavior : ViewBehavior {
 		
 		var transform = _transforms.Get(_entity.Id);
 		_targetNode.Position = new Vector2(
-			transform.Position.X.ToFloat(),
-			transform.Position.Y.ToFloat()
+			transform.Position.X.ToFloat() * GameConfig.PixelPerField,
+			transform.Position.Y.ToFloat() * GameConfig.PixelPerField
 		);
 		_targetNode.Rotation = transform.Rotation.ToFloat();
 	}
