@@ -19,21 +19,21 @@ polygon = PackedVector2Array(-9, -15, -9, 15, 9, 15, 9, -15)
 uv = PackedVector2Array(-9, -15, -9, 15, 9, 15, 9, -15)
 
 [node name="WaterMiddle" type="Polygon2D" parent="Offset" unique_id=237104011]
-scale = Vector2(10, 2)
+scale = Vector2(9, 2)
 color = Color(0.011764706, 0.63529414, 0.79607844, 1)
 polygon = PackedVector2Array(-24, -24, -24, 24, 24, 24, 24, -24)
 uv = PackedVector2Array(-24, -24, -24, 24, 24, 24, 24, -24)
 
 [node name="WaterLeft" type="Polygon2D" parent="Offset" unique_id=1757230641]
-position = Vector2(-360, 0)
-scale = Vector2(3, 2)
+position = Vector2(-372, 0)
+scale = Vector2(2.5, 2)
 color = Color(0.011764706, 0.63529414, 0.79607844, 1)
 polygon = PackedVector2Array(-24, -24, -24, 24, 24, 24, 24, -24)
 uv = PackedVector2Array(-24, -24, -24, 24, 24, 24, 24, -24)
 
 [node name="WaterRight" type="Polygon2D" parent="Offset" unique_id=63214543]
-position = Vector2(360, 0)
-scale = Vector2(3, 2)
+position = Vector2(372, 0)
+scale = Vector2(2.5, 2)
 color = Color(0.011764706, 0.63529414, 0.79607844, 1)
 polygon = PackedVector2Array(-24, -24, -24, 24, 24, 24, 24, -24)
 uv = PackedVector2Array(-24, -24, -24, 24, 24, 24, 24, -24)

@@ -6,7 +6,7 @@ namespace MassiveRoyale.Core;
 
 public class MovementSystem : CoreSystem, IUpdate {
 	public void Update() {
-		World.ForEach((Entity entity, ref Transform transform, ref FollowPath path) => {
+		World.ForEach((Entity entity, ref Team team, ref Transform transform) => {
 			
 			if (entity.Has<Target>()) {
 				ref var target = ref entity.Get<Target>();
@@ -25,19 +25,22 @@ public class MovementSystem : CoreSystem, IUpdate {
 				}
 			}
 
-			var waypoint = path.Waypoints[path.CurrentIndex];
-			var direction = new FVector2(waypoint.X, waypoint.Y) - transform.Position;
-			var step = FVector2.Normalize(direction) * 4.ToFP() * GameConfig.DeltaTime;
-
-			if (FVector2.LengthSqr(step) >= FVector2.LengthSqr(direction)) {
-				if (path.CurrentIndex < path.Waypoints.Length - 1) {
-					path.CurrentIndex++;
+			var waypoints = LaneUtility.GetWaypoints(team, transform.Position);
+			foreach (var waypoint in waypoints) {
+				if (waypoint.Y * team.Direction <= transform.Position.Y * team.Direction) {
+					continue;
 				}
 				
-				transform.Position = new FVector2(waypoint.X, waypoint.Y);
-			}
-			else {
+				var direction = waypoint - transform.Position;
+				var step = FVector2.Normalize(direction) * 4.ToFP() * GameConfig.DeltaTime;
+
+				if (FVector2.LengthSqr(step) >= FVector2.LengthSqr(direction)) {
+					continue;
+				}
+					
 				transform.Position += step;
+					
+				break;
 			}
 		});
 

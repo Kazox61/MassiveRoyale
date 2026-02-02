@@ -4,7 +4,9 @@ namespace MassiveRoyale.Core;
 
 public static class GameConfig {
 	public const int BoardFieldWidth = 18;
+	public const int BoardFieldWidthHalf = BoardFieldWidth / 2;
 	public const int BoardFieldHeight = 30;
+	public const int BoardFieldHeightHalf = BoardFieldHeight / 2;
 	public const int PixelPerField = 48;
 	
 	public const int TicksPerSecond = 30;
