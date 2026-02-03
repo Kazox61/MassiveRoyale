@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cq5qowhu6bcnt"]
+
+[ext_resource type="Script" uid="uid://cxsrd1ym35r6s" path="res://addons/massive-godot-integration/synchronizer/EntityView2d.cs" id="1_q4c6j"]
+[ext_resource type="Script" uid="uid://dws04gt5wbv62" path="res://core/view_behavior/TransformViewBehavior.cs" id="3_k7x7j"]
+
+[node name="Building" type="Node2D" unique_id=615940649 node_paths=PackedStringArray("_viewBehaviors")]
+script = ExtResource("1_q4c6j")
+_viewBehaviors = [NodePath("TransformViewBehavior")]
+
+[node name="Sprite" type="Polygon2D" parent="." unique_id=1662253618]
+scale = Vector2(2, 2)
+color = Color(1, 0.17979532, 0.5919169, 1)
+polygon = PackedVector2Array(-24, -24, -24, 24, 24, 24, 24, -24)
+uv = PackedVector2Array(-24, -24, -24, 24, 24, 24, 24, -24)
+
+[node name="TransformViewBehavior" type="Node" parent="." unique_id=2057446774 node_paths=PackedStringArray("_targetNode")]
+script = ExtResource("3_k7x7j")
+_targetNode = NodePath("..")

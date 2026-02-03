@@ -38,37 +38,9 @@ color = Color(0.011764706, 0.63529414, 0.79607844, 1)
 polygon = PackedVector2Array(-24, -24, -24, 24, 24, 24, 24, -24)
 uv = PackedVector2Array(-24, -24, -24, 24, 24, 24, 24, -24)
 
-[node name="Tower1" type="Polygon2D" parent="Offset" unique_id=2096827736]
-position = Vector2(-264, -456)
-scale = Vector2(2, 2)
-color = Color(0.581033, 0.58103293, 0.5810329, 1)
-polygon = PackedVector2Array(-24, -24, -24, 24, 24, 24, 24, -24)
-uv = PackedVector2Array(-24, -24, -24, 24, 24, 24, 24, -24)
-
-[node name="Tower2" type="Polygon2D" parent="Offset" unique_id=159898942]
-position = Vector2(264, -456)
-scale = Vector2(2, 2)
-color = Color(0.581033, 0.58103293, 0.5810329, 1)
-polygon = PackedVector2Array(-24, -24, -24, 24, 24, 24, 24, -24)
-uv = PackedVector2Array(-24, -24, -24, 24, 24, 24, 24, -24)
-
 [node name="KingTower1" type="Polygon2D" parent="Offset" unique_id=1668623151]
 position = Vector2(0, -624)
 scale = Vector2(3, 3)
-color = Color(0.581033, 0.58103293, 0.5810329, 1)
-polygon = PackedVector2Array(-24, -24, -24, 24, 24, 24, 24, -24)
-uv = PackedVector2Array(-24, -24, -24, 24, 24, 24, 24, -24)
-
-[node name="Tower3" type="Polygon2D" parent="Offset" unique_id=946424240]
-position = Vector2(-264, 456)
-scale = Vector2(2, 2)
-color = Color(0.581033, 0.58103293, 0.5810329, 1)
-polygon = PackedVector2Array(-24, -24, -24, 24, 24, 24, 24, -24)
-uv = PackedVector2Array(-24, -24, -24, 24, 24, 24, 24, -24)
-
-[node name="Tower4" type="Polygon2D" parent="Offset" unique_id=1736675504]
-position = Vector2(264, 456)
-scale = Vector2(2, 2)
 color = Color(0.581033, 0.58103293, 0.5810329, 1)
 polygon = PackedVector2Array(-24, -24, -24, 24, 24, 24, 24, -24)
 uv = PackedVector2Array(-24, -24, -24, 24, 24, 24, 24, -24)

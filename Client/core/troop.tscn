@@ -9,7 +9,7 @@ scale = Vector2(0.5, 0.5)
 script = ExtResource("1_ege1t")
 _viewBehaviors = [NodePath("TransformViewBehavior")]
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=967168408]
+[node name="Sprite" type="Sprite2D" parent="." unique_id=967168408]
 texture = ExtResource("1_ovm5h")
 
 [node name="TransformViewBehavior" type="Node" parent="." unique_id=2057446774 node_paths=PackedStringArray("_targetNode")]

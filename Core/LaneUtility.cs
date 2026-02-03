@@ -9,37 +9,37 @@ public class LaneUtility {
 	public static FVector2 RightBridgeTop = new(14.5.ToFP(), 13.5.ToFP());
 	public static FVector2 RightBridgeBottom = new(14.5.ToFP(), 16.5.ToFP());
 
-	public static FVector2[] TopLeftLane = [
+	public static readonly FVector2[] TopLeftLane = [
 		LeftBridgeTop,
 		LeftBridgeBottom
 	];
 	
-	public static FVector2[] TopRightLane = [
+	public static readonly FVector2[] TopRightLane = [
 		RightBridgeTop,
 		RightBridgeBottom
 	];
 	
-	public static FVector2[] BottomLeftLane = [
+	public static readonly FVector2[] BottomLeftLane = [
 		LeftBridgeBottom,
 		LeftBridgeTop
 	];
 	
-	public static FVector2[] BottomRightLane = [
+	public static readonly FVector2[] BottomRightLane = [
 		RightBridgeBottom,
 		RightBridgeTop
 	];
 	
-	public static FVector2[][] LeftLanes = [
+	public static readonly FVector2[][] LeftLanes = [
 		TopLeftLane,
 		BottomLeftLane
 	];
 	
-	public static FVector2[][] RightLanes = [
+	public static readonly FVector2[][] RightLanes = [
 		TopRightLane,
 		BottomRightLane
 	];
 	
-	public static FVector2[][][] AllLanes = [
+	public static readonly FVector2[][][] AllLanes = [
 		LeftLanes,
 		RightLanes
 	];
