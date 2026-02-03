@@ -6,32 +6,31 @@ namespace MassiveRoyale.Core;
 
 public class SeparationSystem : CoreSystem, IUpdate {
 	public void Update() {
-		Span<int> buffer = stackalloc int[256];
-		var count = 0;
+		var entityIds = new List<int>();
 
 		foreach (var entity in World.Include<Transform, Hitbox, PushWeight>().Entities) {
-			buffer[count++] = entity.Id;
+			entityIds.Add(entity.Id);
 		}
 
-		for (var i = 0; i < count; i++) {
-			var a = World.GetEntity(buffer[i]);
+		for (var i = 0; i < entityIds.Count; i++) {
+			var a = World.GetEntity(entityIds[i]);
 
-			ref var ta = ref a.Get<Transform>();
-			ref var ha = ref a.Get<Hitbox>();
-			ref var wa = ref a.Get<PushWeight>();
+			ref var transformA = ref a.Get<Transform>();
+			ref var hitboxA = ref a.Get<Hitbox>();
+			ref var pushWeightA = ref a.Get<PushWeight>();
 
-			for (var j = i + 1; j < count; j++) {
-				var b = World.GetEntity(buffer[j]);
+			for (var j = i + 1; j < entityIds.Count; j++) {
+				var b = World.GetEntity(entityIds[j]);
 
-				ref var tb = ref b.Get<Transform>();
-				ref var hb = ref b.Get<Hitbox>();
-				ref var wb = ref b.Get<PushWeight>();
+				ref var transformB = ref b.Get<Transform>();
+				ref var hitboxB = ref b.Get<Hitbox>();
+				ref var pushWeightB = ref b.Get<PushWeight>();
 
-				var dx = tb.Position.X - ta.Position.X;
-				var dy = tb.Position.Y - ta.Position.Y;
-				var distSqr = dx * dx + dy * dy;
+				var deltaX = transformB.Position.X - transformA.Position.X;
+				var deltaY = transformB.Position.Y - transformA.Position.Y;
+				var distSqr = deltaX * deltaX + deltaY * deltaY;
 
-				var minDist = ha.Radius + hb.Radius;
+				var minDist = hitboxA.Radius + hitboxB.Radius;
 				if (distSqr >= minDist * minDist) {
 					continue;
 				}
@@ -41,35 +40,35 @@ public class SeparationSystem : CoreSystem, IUpdate {
 					continue;
 				}
 
-				if (wa.Value == FP.Zero && wb.Value == FP.Zero) {
+				if (pushWeightA.Value == FP.Zero && pushWeightB.Value == FP.Zero) {
 					throw new InvalidOperationException($"Two immovable entities overlap: {a.Id} and {b.Id}");
 				}
 
 				var overlap = minDist - dist;
-				var nx = dx / dist;
-				var ny = dy / dist;
+				var normalizedDeltaX = deltaX / dist;
+				var normalizedDeltaY = deltaY / dist;
 
-				if (wa.Value == FP.Zero) {
-					tb.Position.X += nx * overlap;
-					tb.Position.Y += ny * overlap;
+				if (pushWeightA.Value == FP.Zero) {
+					transformB.Position.X += normalizedDeltaX * overlap;
+					transformB.Position.Y += normalizedDeltaY * overlap;
 					continue;
 				}
 
-				if (wb.Value == FP.Zero) {
-					ta.Position.X -= nx * overlap;
-					ta.Position.Y -= ny * overlap;
+				if (pushWeightB.Value == FP.Zero) {
+					transformA.Position.X -= normalizedDeltaX * overlap;
+					transformA.Position.Y -= normalizedDeltaY * overlap;
 					continue;
 				}
 
-				var totalWeight = wa.Value + wb.Value;
-				var pushA = overlap * wb.Value / totalWeight;
-				var pushB = (overlap * wa.Value) / totalWeight;
+				var totalWeight = pushWeightA.Value + pushWeightB.Value;
+				var pushAmountA = overlap * pushWeightB.Value / totalWeight;
+				var pushAmountB = overlap * pushWeightA.Value / totalWeight;
 
-				ta.Position.X -= nx * pushA;
-				ta.Position.Y -= ny * pushA;
+				transformA.Position.X -= normalizedDeltaX * pushAmountA;
+				transformA.Position.Y -= normalizedDeltaY * pushAmountA;
 
-				tb.Position.X += nx * pushB;
-				tb.Position.Y += ny * pushB;
+				transformB.Position.X += normalizedDeltaX * pushAmountB;
+				transformB.Position.Y += normalizedDeltaY * pushAmountB;
 			}
 		}
 	}
