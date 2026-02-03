@@ -11,7 +11,8 @@ public class WaypointMovementSystem : CoreSystem, IUpdate {
 		query.ForEach((ref Team team, ref Transform transform, ref Movement movement) => {
 			var waypoints = LaneUtility.GetWaypoints(team, transform.Position);
 			foreach (var waypoint in waypoints) {
-				if (waypoint.Y * team.Direction <= transform.Position.Y * team.Direction) {
+				var delta = waypoint.Y * team.Direction - transform.Position.Y * team.Direction;
+				if (delta <= 0.001f.ToFP()) {
 					continue;
 				}
 				

@@ -12,18 +12,25 @@ public partial class ClientGame : Node {
 	private GameRunner _gameRunner;
 	private GodotEntitySynchronization _entitySynchronization;
 	
-	public override void _Ready() {
+	public override void _EnterTree() {
 		_session = new Session();
 		_gameRunner = new GameRunner(_session);
 		
 		_entitySynchronization = new GodotEntitySynchronization(_session.World);
 		_entitySynchronization.SubscribeViews();
 	}
-	
+
+	public override void _ExitTree() {
+		_entitySynchronization.UnsubscribeViews();
+	}
+
 	public override void _PhysicsProcess(double delta) {
+		ProcessInput();
 		_gameRunner.ProcessTick();
 		_entitySynchronization.SynchronizeViews();
-		
+	}
+
+	private void ProcessInput() {
 		var shiftPressed = Input.IsKeyPressed(Key.Shift);
 		
 		var camera = GetViewport().GetCamera2D();

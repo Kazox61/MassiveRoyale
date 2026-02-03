@@ -15,6 +15,8 @@ public class GameRunner {
 			.New<WaypointMovementSystem>()
 			.New<TargetApproachSystem>()
 			.New<DetectionSystem>()
+			.New<AttackProgressSystem>()
+			.New<DamageSystem>()
 			.New<SeparationSystem>()
 			.Build(Session);
 		

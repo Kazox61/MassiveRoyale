@@ -8,6 +8,11 @@ public class DetectionSystem : CoreSystem, IUpdate {
 	public void Update() {
 		World.ForEach((Entity entity, ref Team team, ref Transform transform, ref DetectionRange detectionRange) => {
 			if (entity.Has<Target>()) {
+				var target = entity.Get<Target>();
+				var targetEntity = target.TargetEntifier.In(World);
+				if (!targetEntity.IsAlive) {
+					entity.Remove<Target>();
+				}
 				return;
 			}
 

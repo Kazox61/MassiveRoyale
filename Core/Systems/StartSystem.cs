@@ -13,15 +13,20 @@ public class StartSystem : CoreSystem, IFirstTick, IUpdate {
 	
 	public static FVector2 RedLeftTowerPosition = new FVector2(3.5.ToFP(), 5.5.ToFP());
 	public static FVector2 RedRightTowerPosition = new FVector2(14.5.ToFP(), 5.5.ToFP());
+	public static FVector2 RedKingTowerPosition = new FVector2(9.ToFP(), 2.ToFP());
 	public static FVector2 BlueLeftTowerPosition = new FVector2(3.5.ToFP(), 24.5.ToFP());
 	public static FVector2 BlueRightTowerPosition = new FVector2(14.5.ToFP(), 24.5.ToFP());
+	public static FVector2 BlueKingTowerPosition = new FVector2(9.ToFP(), 28.ToFP());
 	
 	public void FirstTick() {
-		CreateBuilding(RedTeam, RedLeftTowerPosition).Add<Tower>();
-		CreateBuilding(RedTeam, RedRightTowerPosition).Add<Tower>();
+		CreateBuilding(RedTeam, RedLeftTowerPosition, "uid://cq5qowhu6bcnt").Add<Tower>();
+		CreateBuilding(RedTeam, RedRightTowerPosition, "uid://cq5qowhu6bcnt").Add<Tower>();
 		
-		CreateBuilding(BlueTeam, BlueLeftTowerPosition).Add<Tower>();
-		CreateBuilding(BlueTeam, BlueRightTowerPosition).Add<Tower>();
+		CreateBuilding(BlueTeam, BlueLeftTowerPosition, "uid://cq5qowhu6bcnt").Add<Tower>();
+		CreateBuilding(BlueTeam, BlueRightTowerPosition, "uid://cq5qowhu6bcnt").Add<Tower>();
+		
+		CreateBuilding(RedTeam, RedKingTowerPosition, "uid://ch70oh23or4k3").Add<Tower>();
+		CreateBuilding(BlueTeam, BlueKingTowerPosition, "uid://ch70oh23or4k3").Add<Tower>();
 		//CreateTroop(RedTeam, new FVector2(8.5.ToFP(), 5.5.ToFP()));
 		// CreateTroop(RedTeam, new FVector2(9.5.ToFP(), 12.5.ToFP()));
 		
@@ -29,13 +34,14 @@ public class StartSystem : CoreSystem, IFirstTick, IUpdate {
 		// CreateTroop(BlueTeam, new FVector2(2.5.ToFP(), 28.5.ToFP()));
 	}
 	
-	private Entity CreateBuilding(Team team, FVector2 field) {
+	private Entity CreateBuilding(Team team, FVector2 field, string scenePath) {
 		var entity = World.CreateEntity();
 		entity.Set(team);
 		entity.Set(new Transform { Position = field });
 		entity.Set(new Hitbox { Radius = FP.One });
 		entity.Set(new PushWeight());
-		entity.Set(new ViewAsset { PackedScenePath = "uid://cq5qowhu6bcnt" });
+		entity.Set(new Health { Current = 10.ToFP(), Max = 10.ToFP() });
+		entity.Set(new ViewAsset { PackedScenePath = scenePath });
 		return entity;
 	}
 	
@@ -48,6 +54,7 @@ public class StartSystem : CoreSystem, IFirstTick, IUpdate {
 		entity.Set(new AttackRange { Value = 1 });
 		entity.Set(new Movement { Speed = speed });
 		entity.Set(new PushWeight { Value = 1 });
+		entity.Set(new Health { Current = 10.ToFP(), Max = 10.ToFP() });
 		entity.Set(new ViewAsset { PackedScenePath = "uid://tnjodsxnrsty" });
 	}
 

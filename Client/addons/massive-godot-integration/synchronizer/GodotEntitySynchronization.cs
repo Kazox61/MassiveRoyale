@@ -1,9 +1,8 @@
-﻿using System;
-using Massive;
+﻿using Massive;
 
 namespace massivegodotintegration.addons.massive_godot_integration.synchronizer;
 
-public class GodotEntitySynchronization : IDisposable {
+public class GodotEntitySynchronization {
 	private readonly World _world;
 	private readonly EntityViewSynchronizer _entityViewSynchronizer;
 
@@ -32,9 +31,5 @@ public class GodotEntitySynchronization : IDisposable {
 
 	private void OnBeforeViewRemoved(int entityId) {
 		_entityViewSynchronizer.DestroyView(entityId);
-	}
-
-	public void Dispose() {
-		UnsubscribeViews();
 	}
 }
