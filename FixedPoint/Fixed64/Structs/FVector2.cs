@@ -329,9 +329,12 @@ namespace Fixed64
 		public static FVector2 NormalizeSafe(FVector2 a, FVector2 defaultValue = new FVector2())
 		{
 			var lengthSqr = LengthSqr(a);
-			if (lengthSqr < FP.CalculationsEpsilonSqr)
+			var length = FMath.Sqrt(lengthSqr);
+			if (length == FP.Zero)
+			{
 				return defaultValue;
-			return a / FMath.Sqrt(lengthSqr);
+			}
+			return a / length;
 		}
 
 		/// <summary>

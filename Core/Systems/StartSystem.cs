@@ -34,18 +34,20 @@ public class StartSystem : CoreSystem, IFirstTick, IUpdate {
 		entity.Set(team);
 		entity.Set(new Transform { Position = field });
 		entity.Set(new Hitbox { Radius = FP.One });
+		entity.Set(new PushWeight());
 		entity.Set(new ViewAsset { PackedScenePath = "uid://cq5qowhu6bcnt" });
 		return entity;
 	}
 	
-	private void CreateTroop(Team team, FVector2 field) {
+	private void CreateTroop(Team team, FVector2 field, FP speed) {
 		var entity = World.CreateEntity();
 		entity.Set(team);
 		entity.Set(new Transform { Position = field });
 		entity.Set(new Hitbox { Radius = FP.Half });
 		entity.Set(new DetectionRange { Value = 5 });
 		entity.Set(new AttackRange { Value = 1 });
-		entity.Set(new Movement { Speed = 4.ToFP() });
+		entity.Set(new Movement { Speed = speed });
+		entity.Set(new PushWeight { Value = 1 });
 		entity.Set(new ViewAsset { PackedScenePath = "uid://tnjodsxnrsty" });
 	}
 
@@ -55,7 +57,7 @@ public class StartSystem : CoreSystem, IFirstTick, IUpdate {
 			if (playerInputSource.IsFresh()) {
 				var team = Teams[channel];
 				var field = playerInputSource.LastFresh().Position;
-				CreateTroop(team, field);
+				CreateTroop(team, field, 2.ToFP() + (playerInputSource.LastFresh().ShiftPressed ? 2.ToFP() : FP.Zero));
 			}
 		}
 	}

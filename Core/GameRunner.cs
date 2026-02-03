@@ -15,6 +15,7 @@ public class GameRunner {
 			.New<WaypointMovementSystem>()
 			.New<TargetApproachSystem>()
 			.New<DetectionSystem>()
+			.New<SeparationSystem>()
 			.Build(Session);
 		
 		var systemSimulation = new SystemsSimulation(Session.Systems);

@@ -24,17 +24,25 @@ public partial class ClientGame : Node {
 		_gameRunner.ProcessTick();
 		_entitySynchronization.SynchronizeViews();
 		
+		var shiftPressed = Input.IsKeyPressed(Key.Shift);
+		
 		var camera = GetViewport().GetCamera2D();
 		var mousePosition = camera.GetGlobalMousePosition();
 		
 		var fieldX = Mathf.RoundToInt(mousePosition.X / GameConfig.PixelPerField);
 		var fieldY = Mathf.RoundToInt(mousePosition.Y / GameConfig.PixelPerField);
 		if (Input.IsActionJustPressed("left_click")) {
-			_session.Inputs.SetActualInput(0, new PlayerInput { Position = new FVector2(fieldX.ToFP(), fieldY.ToFP())});
+			_session.Inputs.SetActualInput(0, new PlayerInput {
+				Position = new FVector2(fieldX.ToFP(), fieldY.ToFP()), 
+				ShiftPressed = shiftPressed
+			});
 		}
 		
 		if (Input.IsActionJustPressed("right_click")) {
-			_session.Inputs.SetActualInput(1, new PlayerInput { Position = new FVector2(fieldX.ToFP(), fieldY.ToFP())});
+			_session.Inputs.SetActualInput(1, new PlayerInput {
+				Position = new FVector2(fieldX.ToFP(), fieldY.ToFP()), 
+				ShiftPressed = shiftPressed
+			});
 		}
 	}
 }
