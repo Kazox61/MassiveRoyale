@@ -28,7 +28,7 @@ public class DetectionSystem : CoreSystem, IUpdate {
 					return;
 				}
 				
-				if (!TargetUtility.CanTarget(targetElevationLayer, targetHitbox.ElevationLayer)) {
+				if (!LayerUtility.HasLayer(targetElevationLayer, targetHitbox.ElevationLayer)) {
 					return;
 				}
 

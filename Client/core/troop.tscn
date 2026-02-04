@@ -3,15 +3,59 @@
 [ext_resource type="Script" uid="uid://cxsrd1ym35r6s" path="res://addons/massive-godot-integration/synchronizer/EntityView2d.cs" id="1_ege1t"]
 [ext_resource type="Texture2D" uid="uid://cvtllpyd13kos" path="res://icon.svg" id="1_ovm5h"]
 [ext_resource type="Script" uid="uid://dws04gt5wbv62" path="res://core/view_behavior/TransformViewBehavior.cs" id="3_y23bv"]
+[ext_resource type="Script" uid="uid://jru6u04ld7uu" path="res://core/view_behavior/HealthViewBehavior.cs" id="4_a2ccu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y23bv"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.101960786, 0.101960786, 0.101960786, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a2ccu"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0, 0.70586336, 1.1551381e-06, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 6
 
 [node name="Troop" type="Node2D" unique_id=615940649 node_paths=PackedStringArray("_viewBehaviors")]
 script = ExtResource("1_ege1t")
-_viewBehaviors = [NodePath("TransformViewBehavior")]
+_viewBehaviors = [NodePath("TransformViewBehavior"), NodePath("HealthViewBehavior")]
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=967168408]
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_ovm5h")
 
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=1162175088]
+custom_minimum_size = Vector2(70, 0)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -35.0
+offset_top = -50.0
+offset_right = 35.0
+offset_bottom = -35.0
+grow_horizontal = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_y23bv")
+theme_override_styles/fill = SubResource("StyleBoxFlat_a2ccu")
+value = 50.0
+show_percentage = false
+
 [node name="TransformViewBehavior" type="Node" parent="." unique_id=2057446774 node_paths=PackedStringArray("_targetNode")]
 script = ExtResource("3_y23bv")
 _targetNode = NodePath("..")
+
+[node name="HealthViewBehavior" type="Node" parent="." unique_id=1167158800 node_paths=PackedStringArray("_targetProgress")]
+script = ExtResource("4_a2ccu")
+_targetProgress = NodePath("../ProgressBar")

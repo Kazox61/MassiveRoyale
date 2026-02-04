@@ -9,6 +9,7 @@ public class DamageSystem : CoreSystem, IUpdate {
 		World.ForEach((Entity hitEntity, ref Hit hit, ref Damage damage) => {
 			var targetEntity = hit.TargetEntifier.In(World);
 			if (!targetEntity.IsAlive) {
+				hitEntity.Destroy();
 				return;
 			}
 

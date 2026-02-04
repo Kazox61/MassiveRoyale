@@ -8,23 +8,25 @@ public class WaypointMovementSystem : CoreSystem, IUpdate {
 	
 	public void Update() {
 		var query = World.Include<Team, Transform, Movement>().Exclude<Target>();
-		query.ForEach((ref Team team, ref Transform transform, ref Movement movement) => {
-			var waypoints = LaneUtility.GetWaypoints(team, transform.Position);
-			foreach (var waypoint in waypoints) {
-				var delta = waypoint.Y * team.Direction - transform.Position.Y * team.Direction;
-				if (delta <= 0.001f.ToFP()) {
-					continue;
-				}
+		query.ForEach((ref Team team, ref Transform transform, ref Movement movement, ref Hitbox hitbox) => {
+			if (LayerUtility.HasLayer(ElevationLayer.Ground, hitbox.ElevationLayer)) {
+				var waypoints = LaneUtility.GetWaypoints(team, transform.Position);
+				foreach (var waypoint in waypoints) {
+					var delta = waypoint.Y * team.Direction - transform.Position.Y * team.Direction;
+					if (delta <= 0.001f.ToFP()) {
+						continue;
+					}
 				
-				var halfGateWidth = LaneUtility.LineGateWidth / 2;
-				var preferredX = FMath.Clamp(
-					transform.Position.X,
-					 waypoint.X - halfGateWidth,
-					 waypoint.X + halfGateWidth
-				);
-				var targetPosition = new FVector2(preferredX, waypoint.Y);
-				movement.MoveTowards(ref transform, targetPosition);
-				return;
+					var halfGateWidth = LaneUtility.LineGateWidth / 2;
+					var preferredX = FMath.Clamp(
+						transform.Position.X,
+						waypoint.X - halfGateWidth,
+						waypoint.X + halfGateWidth
+					);
+					var targetPosition = new FVector2(preferredX, waypoint.Y);
+					movement.MoveTowards(ref transform, targetPosition);
+					return;
+				}
 			}
 
 			var closestTowerId = -1;
