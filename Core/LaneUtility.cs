@@ -8,6 +8,8 @@ public class LaneUtility {
 	public static FVector2 LeftBridgeBottom = new(3.5.ToFP(), 16.5.ToFP());
 	public static FVector2 RightBridgeTop = new(14.5.ToFP(), 13.5.ToFP());
 	public static FVector2 RightBridgeBottom = new(14.5.ToFP(), 16.5.ToFP());
+	
+	public static FP LineGateWidth = FP.One;
 
 	public static readonly FVector2[] TopLeftLane = [
 		LeftBridgeTop,

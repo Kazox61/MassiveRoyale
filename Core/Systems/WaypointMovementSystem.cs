@@ -16,7 +16,14 @@ public class WaypointMovementSystem : CoreSystem, IUpdate {
 					continue;
 				}
 				
-				movement.MoveTowards(ref transform, waypoint);
+				var halfGateWidth = LaneUtility.LineGateWidth / 2;
+				var preferredX = FMath.Clamp(
+					transform.Position.X,
+					 waypoint.X - halfGateWidth,
+					 waypoint.X + halfGateWidth
+				);
+				var targetPosition = new FVector2(preferredX, waypoint.Y);
+				movement.MoveTowards(ref transform, targetPosition);
 				return;
 			}
 
