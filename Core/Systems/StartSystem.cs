@@ -19,14 +19,14 @@ public class StartSystem : CoreSystem, IFirstTick, IUpdate {
 	public static FVector2 BlueKingTowerPosition = new FVector2(9.ToFP(), 28.ToFP());
 	
 	public void FirstTick() {
-		CreateBuilding(RedTeam, RedLeftTowerPosition, "uid://cq5qowhu6bcnt").Add<Tower>();
-		CreateBuilding(RedTeam, RedRightTowerPosition, "uid://cq5qowhu6bcnt").Add<Tower>();
+		CreateBuilding(RedTeam, RedLeftTowerPosition, BuildingConfigTable.Table[0]).Add<Tower>();
+		CreateBuilding(RedTeam, RedRightTowerPosition, BuildingConfigTable.Table[0]).Add<Tower>();
 		
-		CreateBuilding(BlueTeam, BlueLeftTowerPosition, "uid://cq5qowhu6bcnt").Add<Tower>();
-		CreateBuilding(BlueTeam, BlueRightTowerPosition, "uid://cq5qowhu6bcnt").Add<Tower>();
+		CreateBuilding(BlueTeam, BlueLeftTowerPosition, BuildingConfigTable.Table[0]).Add<Tower>();
+		CreateBuilding(BlueTeam, BlueRightTowerPosition, BuildingConfigTable.Table[0]).Add<Tower>();
 		
-		CreateBuilding(RedTeam, RedKingTowerPosition, "uid://ch70oh23or4k3").Add<Tower>();
-		CreateBuilding(BlueTeam, BlueKingTowerPosition, "uid://ch70oh23or4k3").Add<Tower>();
+		CreateBuilding(RedTeam, RedKingTowerPosition, BuildingConfigTable.Table[1]).Add<Tower>();
+		CreateBuilding(BlueTeam, BlueKingTowerPosition, BuildingConfigTable.Table[1]).Add<Tower>();
 		//CreateTroop(RedTeam, new FVector2(8.5.ToFP(), 5.5.ToFP()));
 		// CreateTroop(RedTeam, new FVector2(9.5.ToFP(), 12.5.ToFP()));
 		
@@ -34,38 +34,42 @@ public class StartSystem : CoreSystem, IFirstTick, IUpdate {
 		// CreateTroop(BlueTeam, new FVector2(2.5.ToFP(), 28.5.ToFP()));
 	}
 	
-	private Entity CreateBuilding(Team team, FVector2 field, string scenePath) {
+	private Entity CreateBuilding(Team team, FVector2 field, BuildingConfig config) {
 		var entity = World.CreateEntity();
 		entity.Set(team);
 		entity.Set(new Transform { Position = field });
-		entity.Set(new Hitbox { Radius = FP.One });
-		entity.Set(new PushWeight());
-		entity.Set(new Health { Current = 10.ToFP(), Max = 10.ToFP() });
-		entity.Set(new ViewAsset { PackedScenePath = scenePath });
+		entity.Set(new Hitbox { Radius = config.HitboxRadius, ElevationLayer = config.HitboxLayer });
+		entity.Set(new DetectionRange { Value = config.DetectionRange });
+		entity.Set(new NextAttack { Range = config.AttackRange, Damage = config.AttackDamage, TargetElevationLayer = config.AttackTargetLayer });
+		entity.Set(new PushWeight { Value = 0 });
+		entity.Set(new Health { Current = config.Health.ToFP(), Max = config.Health.ToFP() });
+		entity.Set(new ViewAsset { PackedScenePath = config.PackedScenePath });
 		return entity;
 	}
 	
-	private void CreateTroop(Team team, FVector2 field, FP speed) {
+	private void CreateTroop(Team team, FVector2 field, TroopConfig config) {
 		var entity = World.CreateEntity();
 		entity.Set(team);
 		entity.Set(new Transform { Position = field });
-		entity.Set(new Hitbox { Radius = FP.Half });
-		entity.Set(new DetectionRange { Value = 5 });
-		entity.Set(new AttackRange { Value = 1 });
-		entity.Set(new Movement { Speed = speed });
-		entity.Set(new PushWeight { Value = 1 });
-		entity.Set(new Health { Current = 10.ToFP(), Max = 10.ToFP() });
-		entity.Set(new ViewAsset { PackedScenePath = "uid://tnjodsxnrsty" });
+		entity.Set(new Hitbox { Radius = config.HitboxRadius, ElevationLayer = config.HitboxLayer });
+		entity.Set(new DetectionRange { Value = config.DetectionRange });
+		entity.Set(new NextAttack { Range = config.AttackRange, Damage = config.AttackDamage, TargetElevationLayer = config.AttackTargetLayer });
+		entity.Set(new Movement { Speed = config.Speed });
+		entity.Set(new PushWeight { Value = config.PushWeight });
+		entity.Set(new Health { Current = config.Health.ToFP(), Max = config.Health.ToFP() });
+		entity.Set(new ViewAsset { PackedScenePath = config.PackedScenePath });
 	}
 
 	public void Update() {
 		var playerInputs = Inputs.GetFreshInputs<PlayerInput>();
 		foreach (var (channel, playerInputSource) in playerInputs) {
-			if (playerInputSource.IsFresh()) {
-				var team = Teams[channel];
-				var field = playerInputSource.LastFresh().Position;
-				CreateTroop(team, field, 2.ToFP() + (playerInputSource.LastFresh().ShiftPressed ? 2.ToFP() : FP.Zero));
+			if (!playerInputSource.IsFresh()) {
+				continue;
 			}
+			var team = Teams[channel];
+			var field = playerInputSource.LastFresh().Position;
+			var config = TroopConfigTable.Table[playerInputSource.LastFresh().Number - 1];
+			CreateTroop(team, field, config);
 		}
 	}
 }

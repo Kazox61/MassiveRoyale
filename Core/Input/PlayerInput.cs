@@ -5,5 +5,5 @@ namespace MassiveRoyale.Core.Input;
 
 public struct PlayerInput : IInput {
 	public FVector2 Position;
-	public bool ShiftPressed;
+	public int Number;
 }

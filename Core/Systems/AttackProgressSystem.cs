@@ -6,7 +6,7 @@ namespace MassiveRoyale.Core;
 
 public class AttackProgressSystem : CoreSystem, IUpdate {
 	public void Update() {
-		World.ForEach((Entity entity, ref AttackProgress attackProgress) => {
+		World.ForEach((Entity entity, ref AttackProgress attackProgress, ref NextAttack nextAttack) => {
 			attackProgress.ProgressRatio += GameConfig.DeltaTime / attackProgress.Duration;
 			if (!attackProgress.HasExecuted && attackProgress.ProgressRatio >= attackProgress.AttackExecutionRatio) {
 				if (!entity.Has<Target>()) {
@@ -19,7 +19,7 @@ public class AttackProgressSystem : CoreSystem, IUpdate {
 					SourceEntifier = entity.Entifier,
 					TargetEntifier = entity.Get<Target>().TargetEntifier
 				});
-				hitEntity.Set(new Damage { Value = 1 });
+				hitEntity.Set(new Damage { Value = nextAttack.Damage });
 				
 				attackProgress.HasExecuted = true;
 			}

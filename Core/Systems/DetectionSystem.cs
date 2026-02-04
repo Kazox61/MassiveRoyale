@@ -6,7 +6,7 @@ namespace MassiveRoyale.Core;
 
 public class DetectionSystem : CoreSystem, IUpdate {
 	public void Update() {
-		World.ForEach((Entity entity, ref Team team, ref Transform transform, ref DetectionRange detectionRange) => {
+		World.ForEach((Entity entity, ref Team team, ref Transform transform, ref DetectionRange detectionRange, ref NextAttack nextAttack) => {
 			if (entity.Has<Target>()) {
 				var target = entity.Get<Target>();
 				var targetEntity = target.TargetEntifier.In(World);
@@ -21,9 +21,14 @@ public class DetectionSystem : CoreSystem, IUpdate {
 			var teamIndex = team.TeamIndex;
 			var currentPosition = transform.Position;
 			var detectionRangeValue = detectionRange.Value.ToFP();
+			var targetElevationLayer = nextAttack.TargetElevationLayer;
 
 			World.ForEach((Entity targetEntity, ref Team targetTeam, ref Transform targetTransform, ref Hitbox targetHitbox) => {
 				if (teamIndex == targetTeam.TeamIndex) {
+					return;
+				}
+				
+				if (!TargetUtility.CanTarget(targetElevationLayer, targetHitbox.ElevationLayer)) {
 					return;
 				}
 
