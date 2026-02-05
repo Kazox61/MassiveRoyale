@@ -35,7 +35,7 @@ public class SeparationSystem : CoreSystem, IUpdate {
 					continue;
 				}
 
-				var dist = FMath.Sqrt(distSqr);
+				var dist = FP.Sqrt(distSqr);
 				if (dist == FP.Zero) {
 					continue;
 				}

@@ -18,7 +18,7 @@ public class WaypointMovementSystem : CoreSystem, IUpdate {
 					}
 				
 					var halfGateWidth = LaneUtility.LineGateWidth / 2;
-					var preferredX = FMath.Clamp(
+					var preferredX = FP.Clamp(
 						transform.Position.X,
 						waypoint.X - halfGateWidth,
 						waypoint.X + halfGateWidth

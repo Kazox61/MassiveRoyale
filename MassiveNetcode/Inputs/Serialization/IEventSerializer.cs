@@ -2,9 +2,12 @@ using System.IO;
 
 namespace Massive.Netcode
 {
-	public interface IEventSerializer : IReadSerializer
+	public interface IEventSerializer<T> where T : IEvent
 	{
-		void WriteOne(int tick, int localOrder, Stream stream);
-		void WriteFullSync(int tick, Stream stream);
+		int DataSize { get; }
+		
+		void Write(T data, Stream stream);
+
+		T Read(Stream stream);
 	}
 }

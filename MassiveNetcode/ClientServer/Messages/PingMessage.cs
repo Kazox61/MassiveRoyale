@@ -5,11 +5,13 @@ namespace Massive.Netcode
 {
 	public struct PingMessage
 	{
+		public static readonly int Size = ReflectionUtils.SizeOfUnmanaged(typeof(PingMessage));
+
 		public double ClientPingSendTime;
 
 		public static PingMessage Read(Stream stream)
 		{
-			var clientSendTime = SerializationUtils.ReadDouble(stream);
+			var clientSendTime = stream.ReadDouble();
 			return new PingMessage()
 			{
 				ClientPingSendTime = clientSendTime,
@@ -18,7 +20,7 @@ namespace Massive.Netcode
 
 		public static void Write(PingMessage message, Stream stream)
 		{
-			SerializationUtils.WriteDouble(message.ClientPingSendTime, stream);
+			stream.WriteDouble(message.ClientPingSendTime);
 		}
 	}
 }

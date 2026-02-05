@@ -12,21 +12,21 @@ namespace Massive.Netcode
 	[Il2CppSetOption(Option.ArrayBoundsChecks, false)]
 	public struct AllEvents<T> where T : IEvent
 	{
-		public int Count { get; private set; }
+		public int SparseCount { get; private set; }
 
-		public T[] Events { get; private set; }
+		public Event<T>[] Events { get; private set; }
 		public int EventsCapacity { get; private set; }
 
 		public ulong[] AllMask { get; private set; }
 		public ulong[] PredictionMask { get; private set; }
 
-		public int MaskLength => (Count + 63) >> 6;
+		public int MaskLength => (SparseCount + 63) >> 6;
 
-		public bool HasAny => Count != 0;
+		public bool HasAny => SparseCount != 0;
 
 		public static AllEvents<T> Empty => new AllEvents<T>
 		{
-			Events = Array.Empty<T>(),
+			Events = Array.Empty<Event<T>>(),
 			AllMask = Array.Empty<ulong>(),
 			PredictionMask = Array.Empty<ulong>()
 		};
@@ -34,15 +34,15 @@ namespace Massive.Netcode
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public void EnsureInitialized()
 		{
-			Events ??= Array.Empty<T>();
+			Events ??= Array.Empty<Event<T>>();
 			AllMask ??= Array.Empty<ulong>();
 			PredictionMask ??= Array.Empty<ulong>();
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public int AppendPrediction(T data)
+		public int AppendPrediction(int channel, T data)
 		{
-			var localOrder = Count++;
+			var localOrder = SparseCount++;
 
 			EnsureEventAt(localOrder);
 
@@ -52,21 +52,21 @@ namespace Massive.Netcode
 			AllMask[maskIndex] |= maskBit;
 			PredictionMask[maskIndex] |= maskBit;
 
-			Events[localOrder] = data;
+			Events[localOrder] = new Event<T>(channel, data);
 
 			return localOrder;
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public int AppendActual(T data)
+		public int AppendActual(int channel, T data)
 		{
-			var localOrder = Count++;
-			SetActual(localOrder, data);
+			var localOrder = SparseCount++;
+			SetActual(localOrder, channel, data);
 			return localOrder;
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public void SetActual(int localOrder, T data)
+		public void SetActual(int localOrder, int channel, T data)
 		{
 			EnsureEventAt(localOrder);
 
@@ -93,7 +93,8 @@ namespace Massive.Netcode
 				var latestPredictionIndex = (latestPredictionMaskIndex << 6) + MathUtils.MSB(AllMask[latestPredictionMaskIndex]);
 
 				// Move head prediction further.
-				AppendPrediction(Events[latestPredictionIndex]);
+				var headEvent = Events[latestPredictionIndex];
+				AppendPrediction(headEvent.Channel, headEvent.Data);
 
 				for (var i = latestPredictionIndex - 1; i >= 0; i--)
 				{
@@ -108,10 +109,10 @@ namespace Massive.Netcode
 			}
 			else
 			{
-				Count = MathUtils.Max(Count, localOrder + 1);
+				SparseCount = MathUtils.Max(SparseCount, localOrder + 1);
 			}
 
-			Events[localOrder] = data;
+			Events[localOrder] = new Event<T>(channel, data);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -125,7 +126,7 @@ namespace Massive.Netcode
 				PredictionMask[i] = 0;
 			}
 
-			Count = 0;
+			SparseCount = 0;
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -138,6 +139,18 @@ namespace Massive.Netcode
 				AllMask[i] &= ~PredictionMask[i];
 				PredictionMask[i] = 0;
 			}
+		}
+
+		public int DenseCount()
+		{
+			var count = 0;
+
+			for (var i = 0; i < MaskLength; i++)
+			{
+				count += MathUtils.PopCount(AllMask[i]);
+			}
+
+			return count;
 		}
 
 		/// <summary>
@@ -172,14 +185,14 @@ namespace Massive.Netcode
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public void CopyFrom(AllEvents<T> other)
 		{
-			EnsureEventAt(other.Count - 1);
-			Array.Copy(other.Events, Events, other.Count);
+			EnsureEventAt(other.SparseCount - 1);
+			Array.Copy(other.Events, Events, other.SparseCount);
 			for (var i = 0; i < other.MaskLength; i++)
 			{
 				AllMask[i] = other.AllMask[i];
 				PredictionMask[i] = other.PredictionMask[i];
 			}
-			Count = other.Count;
+			SparseCount = other.SparseCount;
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]

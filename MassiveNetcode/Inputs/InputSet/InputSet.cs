@@ -1,24 +1,38 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.IO;
+using System.Runtime.CompilerServices;
 using Unity.IL2CPP.CompilerServices;
 
 namespace Massive.Netcode
 {
 	[Il2CppSetOption(Option.NullChecks, false)]
 	[Il2CppSetOption(Option.ArrayBoundsChecks, false)]
-	public sealed partial class InputSet<T> : IInputSet where T : IInput
+	public sealed class InputSet<T> : IInputSet where T : IInput
 	{
 		private readonly ChangeTracker _localChangeTracker = new ChangeTracker();
 		private readonly ChangeTracker _globalChangeTracker;
 		private readonly IPredictionReceiver _predictionReceiver;
 		private readonly CyclicList<AllInputs<T>> _inputs;
 
-		public InputSet(ChangeTracker globalChangeTracker, int startTick, IPredictionReceiver predictionReceiver = null)
+		public InputSet(ChangeTracker globalChangeTracker, int startTick, IPredictionReceiver predictionReceiver = null, IInputSerializer<T> serializer = null)
 		{
 			_globalChangeTracker = globalChangeTracker;
 			_predictionReceiver = predictionReceiver;
 			_inputs = new CyclicList<AllInputs<T>>(startTick);
 			_inputs.Append().EnsureInitialized();
+			Serializer = serializer ?? new UnmanagedInputSerializer<T>();
+			InputType = typeof(T);
+			DataSize = Serializer.DataSize;
+			InputSize = Serializer.InputSize;
 		}
+
+		public IInputSerializer<T> Serializer { get; }
+
+		public Type InputType { get; }
+
+		public int DataSize { get; }
+
+		public int InputSize { get; }
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public AllInputs<T> GetInputs(int tick)
@@ -46,7 +60,7 @@ namespace Massive.Netcode
 
 			_localChangeTracker.NotifyChange(tick);
 			_globalChangeTracker.NotifyChange(tick);
-			_predictionReceiver?.OnInputPredicted<T>(tick, channel);
+			_predictionReceiver?.OnInputPredicted(this, tick, channel);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -93,7 +107,9 @@ namespace Massive.Netcode
 		public void Reset(int startTick)
 		{
 			_inputs.Reset(startTick);
-			_inputs.Append().EnsureInitialized();
+			ref var inputs = ref _inputs.Append();
+			inputs.EnsureInitialized();
+			inputs.Clear();
 		}
 
 		public void PopulateUpTo(int tick)
@@ -125,6 +141,48 @@ namespace Massive.Netcode
 			}
 
 			_localChangeTracker.ConfirmChangesUpTo(_inputs.TailIndex);
+		}
+
+		public void ReadData(int tick, int channel, Stream stream)
+		{
+			PopulateUpTo(tick);
+
+			_inputs[tick].SetActual(channel, Serializer.ReadData(stream));
+		}
+
+		public void ReadInput(int tick, int channel, Stream stream)
+		{
+			PopulateUpTo(tick);
+
+			ref var inputs = ref _inputs[tick];
+
+			inputs.EnsureChannel(channel);
+			inputs.Inputs[channel] = Serializer.ReadInput(stream);
+		}
+
+		public void WriteData(int tick, int channel, Stream stream)
+		{
+			Serializer.WriteData(_inputs[tick].Get(channel).LastFreshInput, stream);
+		}
+
+		public void WriteInput(int tick, int channel, Stream stream)
+		{
+			Serializer.WriteInput(_inputs[tick].Inputs[channel], stream);
+		}
+
+		public void SkipData(Stream stream)
+		{
+			Serializer.ReadData(stream);
+		}
+
+		public int GetUsedChannels(int tick)
+		{
+			return _inputs[tick].UsedChannels;
+		}
+
+		public bool IsFresh(int tick, int channel)
+		{
+			return _inputs[tick].Inputs[channel].IsFresh();
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Runtime.CompilerServices;
 using Unity.IL2CPP.CompilerServices;
 
@@ -6,18 +7,27 @@ namespace Massive.Netcode
 {
 	[Il2CppSetOption(Option.NullChecks, false)]
 	[Il2CppSetOption(Option.ArrayBoundsChecks, false)]
-	public sealed class EventSet<T> : IInputSet where T : IEvent
+	public sealed class EventSet<T> : IEventSet where T : IEvent
 	{
 		private readonly ChangeTracker _globalChangeTracker;
 		private readonly IPredictionReceiver _predictionReceiver;
 		private readonly CyclicList<AllEvents<T>> _events;
 
-		public EventSet(ChangeTracker globalChangeTracker, int startTick, IPredictionReceiver predictionReceiver = null)
+		public EventSet(ChangeTracker globalChangeTracker, int startTick, IPredictionReceiver predictionReceiver = null, IEventSerializer<T> serializer = null)
 		{
 			_globalChangeTracker = globalChangeTracker;
 			_predictionReceiver = predictionReceiver;
 			_events = new CyclicList<AllEvents<T>>(startTick);
+			Serializer = serializer ?? new UnmanagedEventSerializer<T>();
+			EventType = typeof(T);
+			EventDataSize = Serializer.DataSize;
 		}
+
+		public IEventSerializer<T> Serializer { get; }
+
+		public Type EventType { get; }
+
+		public int EventDataSize { get; }
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public AllEvents<T> GetAllEvents(int tick)
@@ -31,30 +41,39 @@ namespace Massive.Netcode
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public void SetActual(int tick, int localOrder, T data)
+		public void SetActual(int tick, int localOrder, int channel, T data)
 		{
 			PopulateUpTo(tick);
 
-			_events[tick].SetActual(localOrder, data);
+			_events[tick].SetActual(localOrder, channel, data);
 
 			_globalChangeTracker.NotifyChange(tick);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public void AppendActual(int tick, T data)
+		public void AppendActual(int tick, int channel, T data)
 		{
-			var localOrder = _events[tick].AppendActual(data);
+			_events[tick].AppendActual(channel, data);
 
 			_globalChangeTracker.NotifyChange(tick);
 		}
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public void AppendPrediction(int tick, T data)
+		int IEventSet.AppendActualDefault(int tick, int channel)
 		{
-			var localOrder = _events[tick].AppendPrediction(data);
+			var localOrder = _events[tick].AppendActual(channel, default);
 
 			_globalChangeTracker.NotifyChange(tick);
-			_predictionReceiver?.OnEventPredicted<T>(tick, localOrder);
+
+			return localOrder;
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public void AppendPrediction(int tick, int channel, T data)
+		{
+			var localOrder = _events[tick].AppendPrediction(channel, data);
+
+			_globalChangeTracker.NotifyChange(tick);
+			_predictionReceiver?.OnEventPredicted(this, tick, localOrder);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -102,24 +121,42 @@ namespace Massive.Netcode
 			_events.RemoveUpTo(tick);
 		}
 
-		public void Reevaluate()
-		{
-			// Events are not stateful, nothing to reevaluate.
-		}
-
 		public void Reset(int startTick)
 		{
 			_events.Reset(startTick);
 		}
 
-		public void ReadActual(Stream stream)
+		public void ReadData(int tick, int localOrder, int channel, Stream stream)
 		{
-			throw new System.NotImplementedException();
+			PopulateUpTo(tick);
+
+			_events[tick].SetActual(localOrder, channel, Serializer.Read(stream));
 		}
 
-		public void ReadFullSync(Stream stream)
+		public void WriteData(int tick, int localOrder, Stream stream)
 		{
-			throw new System.NotImplementedException();
+			Serializer.Write(_events[tick].Events[localOrder].Data, stream);
+		}
+
+		public void SkipData(Stream stream)
+		{
+			Serializer.Read(stream);
+		}
+
+		public int GetEventsCount(int tick)
+		{
+			return _events[tick].DenseCount();
+		}
+
+		public int GetEventChannel(int tick, int localOrder)
+		{
+			return _events[tick].Events[localOrder].Channel;
+		}
+
+		public LocalOrdersEnumerator GetEventsLocalOrders(int tick)
+		{
+			ref var events = ref _events[tick];
+			return new LocalOrdersEnumerator(events.AllMask, events.MaskLength);
 		}
 	}
 }
