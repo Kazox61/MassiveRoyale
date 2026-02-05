@@ -2,7 +2,7 @@
 
 namespace MassiveRoyale.Core.Components;
 
-public class Health {
+public struct Health {
 	public FP Current;
 	public FP Max;
 }
