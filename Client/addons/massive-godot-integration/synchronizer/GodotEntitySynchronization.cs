@@ -1,4 +1,5 @@
-﻿using Massive;
+﻿using Godot;
+using Massive;
 
 namespace massivegodotintegration.addons.massive_godot_integration.synchronizer;
 
@@ -6,9 +7,9 @@ public class GodotEntitySynchronization {
 	private readonly World _world;
 	private readonly EntityViewSynchronizer _entityViewSynchronizer;
 
-	public GodotEntitySynchronization(World world) {
+	public GodotEntitySynchronization(Node parentRoot, World world) {
 		_world = world;
-		_entityViewSynchronizer = new EntityViewSynchronizer(world);
+		_entityViewSynchronizer = new EntityViewSynchronizer(parentRoot, world);
 	}
 
 	public void SubscribeViews() {

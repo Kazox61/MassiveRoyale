@@ -3,8 +3,7 @@
 [ext_resource type="Script" uid="uid://df7a2wedq2f01" path="res://core/ClientGame.cs" id="1_t7o7j"]
 
 [node name="Game" type="Node2D" unique_id=1386580037]
-
-[node name="MassiveRoyaleRunner" type="Node" parent="." unique_id=1792810289]
+y_sort_enabled = true
 script = ExtResource("1_t7o7j")
 
 [node name="Offset" type="Node2D" parent="." unique_id=1267840680]
@@ -13,6 +12,7 @@ position = Vector2(432, 720)
 [node name="Camera2D" type="Camera2D" parent="Offset" unique_id=280604985]
 
 [node name="Polygon2D" type="Polygon2D" parent="Offset" unique_id=1166423948]
+z_index = -1
 scale = Vector2(48, 48)
 color = Color(0.60784316, 0.73333335, 0.27058825, 1)
 polygon = PackedVector2Array(-9, -15, -9, 15, 9, 15, 9, -15)

@@ -4,6 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://cvtllpyd13kos" path="res://icon.svg" id="1_ovm5h"]
 [ext_resource type="Script" uid="uid://dws04gt5wbv62" path="res://core/view_behavior/TransformViewBehavior.cs" id="3_y23bv"]
 [ext_resource type="Script" uid="uid://jru6u04ld7uu" path="res://core/view_behavior/HealthViewBehavior.cs" id="4_a2ccu"]
+[ext_resource type="SpriteFrames" uid="uid://b5m0011voceil" path="res://core/troops/batter/Attack.tres" id="5_hj1uk"]
+[ext_resource type="Script" uid="uid://c7t1mcoy46q3b" path="res://core/view_behavior/TroopAnimationViewBehavior.cs" id="6_hw3yi"]
+[ext_resource type="SpriteFrames" uid="uid://c2m4pi6a0ent3" path="res://core/troops/batter/Move.tres" id="7_xvhc5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y23bv"]
 content_margin_left = 2.0
@@ -31,11 +34,19 @@ corner_detail = 6
 
 [node name="Troop" type="Node2D" unique_id=615940649 node_paths=PackedStringArray("_viewBehaviors")]
 script = ExtResource("1_ege1t")
-_viewBehaviors = [NodePath("TransformViewBehavior"), NodePath("HealthViewBehavior")]
+_viewBehaviors = [NodePath("TransformViewBehavior"), NodePath("HealthViewBehavior"), NodePath("ViewBehavior")]
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=967168408]
+visible = false
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_ovm5h")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=901079831]
+scale = Vector2(1.5, 1.5)
+sprite_frames = ExtResource("5_hj1uk")
+animation = &"Down"
+frame = 45
+frame_progress = 1.0
 
 [node name="ProgressBar" type="ProgressBar" parent="." unique_id=1162175088]
 custom_minimum_size = Vector2(70, 0)
@@ -43,19 +54,26 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -35.0
-offset_top = -50.0
+offset_top = -80.0
 offset_right = 35.0
-offset_bottom = -35.0
+offset_bottom = -65.0
 grow_horizontal = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_y23bv")
 theme_override_styles/fill = SubResource("StyleBoxFlat_a2ccu")
 value = 50.0
 show_percentage = false
 
-[node name="TransformViewBehavior" type="Node" parent="." unique_id=2057446774 node_paths=PackedStringArray("_targetNode")]
+[node name="TransformViewBehavior" type="Node" parent="." unique_id=2057446774 node_paths=PackedStringArray("_targetNode", "_targetAnimatedSprite")]
 script = ExtResource("3_y23bv")
 _targetNode = NodePath("..")
+_targetAnimatedSprite = NodePath("../AnimatedSprite2D")
 
 [node name="HealthViewBehavior" type="Node" parent="." unique_id=1167158800 node_paths=PackedStringArray("_targetProgress")]
 script = ExtResource("4_a2ccu")
 _targetProgress = NodePath("../ProgressBar")
+
+[node name="ViewBehavior" type="Node" parent="." unique_id=708340821 node_paths=PackedStringArray("_targetAnimatedSprite")]
+script = ExtResource("6_hw3yi")
+_targetAnimatedSprite = NodePath("../AnimatedSprite2D")
+_moveAnimationSprite = ExtResource("7_xvhc5")
+_attackAnimationFrames = ExtResource("5_hj1uk")

@@ -7,7 +7,7 @@ using MassiveRoyale.Core.Input;
 
 namespace MassiveRoyale.Client.core;
 
-public partial class ClientGame : Node {
+public partial class ClientGame : Node2D {
 	private Session _session;
 	private GameRunner _gameRunner;
 	private GodotEntitySynchronization _entitySynchronization;
@@ -16,7 +16,7 @@ public partial class ClientGame : Node {
 		_session = new Session();
 		_gameRunner = new GameRunner(_session);
 		
-		_entitySynchronization = new GodotEntitySynchronization(_session.World);
+		_entitySynchronization = new GodotEntitySynchronization(this, _session.World);
 		_entitySynchronization.SubscribeViews();
 	}
 

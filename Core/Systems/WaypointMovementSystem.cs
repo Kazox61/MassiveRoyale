@@ -24,7 +24,13 @@ public class WaypointMovementSystem : CoreSystem, IUpdate {
 						waypoint.X + halfGateWidth
 					);
 					var targetPosition = new FVector2(preferredX, waypoint.Y);
+					
+					var dx = targetPosition.X - transform.Position.X;
+					var dy = targetPosition.Y - transform.Position.Y;
+					transform.Rotation = FP.Atan2(dy, dx);
+					
 					movement.MoveTowards(ref transform, targetPosition);
+					movement.UpdateMovementProgress();
 					return;
 				}
 			}
@@ -53,7 +59,11 @@ public class WaypointMovementSystem : CoreSystem, IUpdate {
 			}
 			
 			if (closestTowerId != -1) {
+				var dx = closestTowerPosition.X - transform.Position.X;
+				var dy = closestTowerPosition.Y - transform.Position.Y;
+				transform.Rotation = FP.Atan2(dy, dx);
 				movement.MoveTowards(ref transform, closestTowerPosition);
+				movement.UpdateMovementProgress();
 			}
 		});
 	}

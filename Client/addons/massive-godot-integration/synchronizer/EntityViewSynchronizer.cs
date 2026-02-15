@@ -5,9 +5,11 @@ namespace massivegodotintegration.addons.massive_godot_integration.synchronizer;
 
 public class EntityViewSynchronizer {
 	private readonly DataSet<ViewInstance> _viewInstances = new();
+	private readonly Node _parentRoot;
 	private readonly World _world;
 
-	public EntityViewSynchronizer(World world) {
+	public EntityViewSynchronizer(Node parentRoot, World world) {
+		_parentRoot = parentRoot;
 		_world = world;
 	}
 
@@ -75,13 +77,15 @@ public class EntityViewSynchronizer {
 			GD.PrintErr($"Instantiated scene does not implement IEntityView: {viewAsset.PackedScenePath}");
 		}
 
+		/*
 		var tree = Engine.GetMainLoop() as SceneTree;
 		if (tree == null) {
 			GD.PrintErr("Failed to get SceneTree.");
 			return;
 		}
-		
 		tree.Root.AddChild(entityView);
+		*/
+		_parentRoot.AddChild(entityView);
 		_viewInstances.Set(entityId, new ViewInstance { Instance = entityView, Asset = viewAsset });
 	}
 	

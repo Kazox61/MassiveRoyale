@@ -6,11 +6,7 @@ namespace MassiveRoyale.Core;
 
 public class TargetApproachSystem : CoreSystem, IUpdate {
 	public void Update() {
-		World.ForEach((Entity entity, ref Transform transform, ref Target target, ref NextAttack nextAttack) => {
-			if (entity.Has<AttackProgress>()) {
-				return;
-			}
-			
+		World.Exclude<AttackProgress>().ForEach((Entity entity, ref Transform transform, ref Target target, ref NextAttack nextAttack) => {
 			var targetEntity = target.TargetEntifier.In(World);
 			if (!targetEntity.IsAlive) {
 				return;
@@ -22,6 +18,8 @@ public class TargetApproachSystem : CoreSystem, IUpdate {
 			var dy = targetTransform.Position.Y - transform.Position.Y;
 			var distanceSqr = dx * dx + dy * dy;
 			var effectiveRange = nextAttack.Range.ToFP() + targetHitbox.Radius;
+			
+			transform.Rotation = FP.Atan2(dy, dx);
 
 			if (distanceSqr <= effectiveRange * effectiveRange) {
 				entity.Set(new AttackProgress {
@@ -29,6 +27,11 @@ public class TargetApproachSystem : CoreSystem, IUpdate {
 					Duration = FP.One,
 					AttackExecutionRatio = FP.Half
 				});
+				
+				if (entity.Has<Movement>()) {
+					ref var movement1 = ref entity.Get<Movement>();
+					movement1.ProgressRatio = FP.Zero;
+				}
 				
 				return;
 			}
@@ -39,6 +42,7 @@ public class TargetApproachSystem : CoreSystem, IUpdate {
 			
 			ref var movement = ref entity.Get<Movement>();
 			movement.MoveTowards(ref transform, targetTransform.Position);
+			movement.UpdateMovementProgress();
 		});
 	}
 }
