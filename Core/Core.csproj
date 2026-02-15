@@ -8,13 +8,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\FixedPoint\FixedPoint.csproj" />
-      <ProjectReference Include="..\MassiveEcs\MassiveEcs.csproj" />
-      <ProjectReference Include="..\MassiveNetcode\MassiveNetcode.csproj" />
+      <Folder Include="Events\" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Events\" />
+      <ProjectReference Include="..\fixed-point\Runtime\FixedPoint.csproj" />
+      <ProjectReference Include="..\massive-ecs\Runtime\Massive.csproj" />
+      <ProjectReference Include="..\massive-netcode\Runtime\MassiveNetcode.csproj" />
+      <ProjectReference Include="..\massive-qol\Runtime\MassiveQol.csproj" />
+      <ProjectReference Include="..\massive-serialization\Runtime\MassiveSerialization.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,12 +1,12 @@
 ﻿using Fixed64;
 using Godot;
+using massive_godot_integration.view_synchronizer;
 using Massive;
-using massivegodotintegration.addons.massive_godot_integration.synchronizer;
 using MassiveRoyale.Core.Components;
 
 namespace MassiveRoyale.Client.core.view_behavior;
 
-public partial class TroopAnimationViewBehavior : ViewBehavior {
+public partial class TroopAnimationViewBehavior : EntityBehaviour {
 	[Export] private AnimatedSprite2D _targetAnimatedSprite;
 	[Export] private SpriteFrames _moveAnimationSprite;
 	[Export] private SpriteFrames _attackAnimationFrames;
@@ -14,9 +14,10 @@ public partial class TroopAnimationViewBehavior : ViewBehavior {
 	private DataSet<AttackProgress> _attackProgresses;
 	private Entity _entity;
 	
-	public override void OnEntityAssigned(World world, Entity entity) {
+	public override void OnEntityAssigned( Entity entity) {
 		_entity = entity;
-		_attackProgresses = world.DataSet<AttackProgress>();
+		_attackProgresses = entity.World.DataSet<AttackProgress>();
+		Update();
 	}
 	public override void OnEntityRemoved() {
 		_attackProgresses = null;
@@ -24,6 +25,10 @@ public partial class TroopAnimationViewBehavior : ViewBehavior {
 	}
 
 	public override void _Process(double delta) {
+		Update();
+	}
+
+	private void Update() {
 		if (!_attackProgresses.Has(_entity.Id)) {
 			if (!_entity.IsAlive) {
 				return;

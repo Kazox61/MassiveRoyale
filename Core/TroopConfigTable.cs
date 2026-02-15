@@ -7,12 +7,14 @@ public static class TroopConfigTable {
 		new TroopConfig {
 			Health = 10,
 			AttackDamage = 2,
+			AssetId = 1,
 		},
 		new TroopConfig {
 			HitboxLayer = ElevationLayer.Air,
 			Health = 10,
 			AttackDamage = 2,
-			AttackTargetLayer = ElevationLayer.Any
+			AttackTargetLayer = ElevationLayer.Any,
+			AssetId = 1,
 		}
 	];
 }
@@ -27,5 +29,5 @@ public class TroopConfig {
 	public int AttackRange = 1;
 	public int AttackDamage;
 	public ElevationLayer AttackTargetLayer = ElevationLayer.Ground;
-	public string PackedScenePath = "uid://tnjodsxnrsty";
+	public int AssetId;
 }

@@ -1,0 +1,15 @@
+[submodule "massive-ecs"]
+	path = massive-ecs
+	url = https://github.com/Kazox61/massive-ecs.git
+[submodule "massive-netcode"]
+	path = massive-netcode
+	url = https://github.com/Kazox61/massive-netcode.git
+[submodule "fixed-point"]
+	path = fixed-point
+	url = https://github.com/Kazox61/fixed-point.git
+[submodule "massive-serialization"]
+	path = massive-serialization
+	url = https://github.com/Kazox61/massive-serialization.git
+[submodule "massive-qol"]
+	path = massive-qol
+	url = https://github.com/Kazox61/massive-qol.git

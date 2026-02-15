@@ -9,14 +9,14 @@ public static class BuildingConfigTable {
 			DetectionRange = 5,
 			AttackRange = 5,
 			AttackDamage = 2,
-			PackedScenePath = "uid://cq5qowhu6bcnt"
+			AssetId = 2
 		},
 		new BuildingConfig {
 			Health = 20,
 			DetectionRange = 5,
 			AttackRange = 5,
 			AttackDamage = 2,
-			PackedScenePath = "uid://ch70oh23or4k3"
+			AssetId = 3
 		},
 	];
 }
@@ -29,5 +29,5 @@ public class BuildingConfig {
 	public int AttackRange = 1;
 	public int AttackDamage;
 	public ElevationLayer AttackTargetLayer = ElevationLayer.Ground;
-	public string PackedScenePath = "";
+	public int AssetId;
 }

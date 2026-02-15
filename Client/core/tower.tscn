@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cq5qowhu6bcnt"]
 
-[ext_resource type="Script" uid="uid://cxsrd1ym35r6s" path="res://addons/massive-godot-integration/synchronizer/EntityView2d.cs" id="1_j4a2m"]
+[ext_resource type="Script" uid="uid://q20lhqtox0l3" path="res://addons/massive-godot-integration/view_synchronizer/EntityView.cs" id="1_4rirf"]
 [ext_resource type="Script" uid="uid://dws04gt5wbv62" path="res://core/view_behavior/TransformViewBehavior.cs" id="2_4rirf"]
 [ext_resource type="Script" uid="uid://jru6u04ld7uu" path="res://core/view_behavior/HealthViewBehavior.cs" id="3_4rirf"]
 
@@ -28,9 +28,9 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 corner_detail = 6
 
-[node name="Tower" type="Node2D" unique_id=615940649 node_paths=PackedStringArray("_viewBehaviors")]
-script = ExtResource("1_j4a2m")
-_viewBehaviors = [NodePath("TransformViewBehavior"), NodePath("HealthViewBehavior")]
+[node name="Tower" type="Node2D" unique_id=615940649 node_paths=PackedStringArray("_entityBehaviours")]
+script = ExtResource("1_4rirf")
+_entityBehaviours = [NodePath("TransformViewBehavior"), NodePath("HealthViewBehavior")]
 
 [node name="Sprite" type="Polygon2D" parent="." unique_id=1662253618]
 scale = Vector2(2, 2)

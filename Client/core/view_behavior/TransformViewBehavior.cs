@@ -1,30 +1,36 @@
 ﻿using Fixed64;
 using Godot;
+using massive_godot_integration.view_synchronizer;
 using MassiveRoyale.Core.Components;
 using Massive;
-using massivegodotintegration.addons.massive_godot_integration.synchronizer;
 using MassiveRoyale.Core;
 
 namespace MassiveRoyale.Client.core.view_behavior;
 
 [GlobalClass]
-public partial class TransformViewBehavior : ViewBehavior {
+public partial class TransformViewBehavior : EntityBehaviour {
 	[Export] private Node2D _targetNode;
 	[Export] private AnimatedSprite2D _targetAnimatedSprite;
 
 	private DataSet<Transform> _transforms;
 	private Entity _entity;
 	
-	public override void OnEntityAssigned(World world, Entity entity) {
+	public override void OnEntityAssigned(Entity entity) {
 		_entity = entity;
-		_transforms = world.DataSet<Transform>();
+		_transforms = entity.World.DataSet<Transform>();
+		Update();
 	}
+	
 	public override void OnEntityRemoved() {
 		_transforms = null;
 		_entity = Entity.Dead;
 	}
 
 	public override void _Process(double delta) {
+		Update();
+	}
+
+	private void Update() {
 		if (!_transforms.Has(_entity.Id)) {
 			return;
 		}
@@ -75,5 +81,4 @@ public partial class TransformViewBehavior : ViewBehavior {
 			};
 		}
 	}
-
 }

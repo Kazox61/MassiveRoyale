@@ -20,10 +20,10 @@ public class GameRunner {
 			.New<SeparationSystem>()
 			.Build(Session);
 		
-		var systemSimulation = new SystemsSimulation(Session.Systems);
-		Session.Simulations.Add(systemSimulation);
+		var basicSimulation = new BasicSimulation(Session.Systems);
+		Session.Simulations.Add(basicSimulation);
 		
-		systemSimulation.Initialize();
+		// basicSimulation.Initialize();
 		
 		Session.World.SaveFrame();
 	}

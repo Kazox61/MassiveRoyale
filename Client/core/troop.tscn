@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://tnjodsxnrsty"]
 
-[ext_resource type="Script" uid="uid://cxsrd1ym35r6s" path="res://addons/massive-godot-integration/synchronizer/EntityView2d.cs" id="1_ege1t"]
 [ext_resource type="Texture2D" uid="uid://cvtllpyd13kos" path="res://icon.svg" id="1_ovm5h"]
+[ext_resource type="Script" uid="uid://q20lhqtox0l3" path="res://addons/massive-godot-integration/view_synchronizer/EntityView.cs" id="1_xvhc5"]
 [ext_resource type="Script" uid="uid://dws04gt5wbv62" path="res://core/view_behavior/TransformViewBehavior.cs" id="3_y23bv"]
 [ext_resource type="Script" uid="uid://jru6u04ld7uu" path="res://core/view_behavior/HealthViewBehavior.cs" id="4_a2ccu"]
 [ext_resource type="SpriteFrames" uid="uid://b5m0011voceil" path="res://core/troops/batter/Attack.tres" id="5_hj1uk"]
@@ -32,9 +32,9 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 corner_detail = 6
 
-[node name="Troop" type="Node2D" unique_id=615940649 node_paths=PackedStringArray("_viewBehaviors")]
-script = ExtResource("1_ege1t")
-_viewBehaviors = [NodePath("TransformViewBehavior"), NodePath("HealthViewBehavior"), NodePath("ViewBehavior")]
+[node name="Troop" type="Node2D" unique_id=615940649 node_paths=PackedStringArray("_entityBehaviours")]
+script = ExtResource("1_xvhc5")
+_entityBehaviours = [NodePath("TransformViewBehavior"), NodePath("HealthViewBehavior"), NodePath("AnimationBehavior")]
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=967168408]
 visible = false
@@ -72,7 +72,7 @@ _targetAnimatedSprite = NodePath("../AnimatedSprite2D")
 script = ExtResource("4_a2ccu")
 _targetProgress = NodePath("../ProgressBar")
 
-[node name="ViewBehavior" type="Node" parent="." unique_id=708340821 node_paths=PackedStringArray("_targetAnimatedSprite")]
+[node name="AnimationBehavior" type="Node" parent="." unique_id=708340821 node_paths=PackedStringArray("_targetAnimatedSprite")]
 script = ExtResource("6_hw3yi")
 _targetAnimatedSprite = NodePath("../AnimatedSprite2D")
 _moveAnimationSprite = ExtResource("7_xvhc5")

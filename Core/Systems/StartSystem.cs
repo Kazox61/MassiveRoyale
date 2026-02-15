@@ -1,6 +1,7 @@
 ﻿using Fixed64;
 using Massive;
 using Massive.Netcode;
+using Massive.QoL;
 using MassiveRoyale.Core.Components;
 using MassiveRoyale.Core.Input;
 
@@ -43,7 +44,7 @@ public class StartSystem : CoreSystem, IFirstTick, IUpdate {
 		entity.Set(new NextAttack { Range = config.AttackRange, Damage = config.AttackDamage, TargetElevationLayer = config.AttackTargetLayer });
 		entity.Set(new PushWeight { Value = 0 });
 		entity.Set(new Health { Current = config.Health.ToFP(), Max = config.Health.ToFP() });
-		entity.Set(new ViewAsset { PackedScenePath = config.PackedScenePath });
+		entity.Set(new ViewAsset(config.AssetId));
 		return entity;
 	}
 	
@@ -57,13 +58,13 @@ public class StartSystem : CoreSystem, IFirstTick, IUpdate {
 		entity.Set(new Movement { Speed = config.Speed });
 		entity.Set(new PushWeight { Value = config.PushWeight });
 		entity.Set(new Health { Current = config.Health.ToFP(), Max = config.Health.ToFP() });
-		entity.Set(new ViewAsset { PackedScenePath = config.PackedScenePath });
+		entity.Set(new ViewAsset(config.AssetId));
 	}
 
 	public void Update() {
 		var playerInputs = Inputs.GetFreshInputs<PlayerInput>();
 		foreach (var (channel, playerInputSource) in playerInputs) {
-			if (!playerInputSource.IsFresh()) {
+			if (!playerInputSource.IsFresh) {
 				continue;
 			}
 			var team = Teams[channel];
