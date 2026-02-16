@@ -17,6 +17,7 @@
       <ProjectReference Include="..\massive-netcode\Runtime\MassiveNetcode.csproj" />
       <ProjectReference Include="..\massive-qol\Runtime\MassiveQol.csproj" />
       <ProjectReference Include="..\massive-serialization\Runtime\MassiveSerialization.csproj" />
+      <ProjectReference Include="..\MassiveCommon\MassiveCommon.csproj" />
     </ItemGroup>
 
 </Project>

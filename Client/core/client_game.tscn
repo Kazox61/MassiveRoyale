@@ -2,9 +2,10 @@
 
 [ext_resource type="Script" uid="uid://df7a2wedq2f01" path="res://core/ClientGame.cs" id="1_t7o7j"]
 
-[node name="Game" type="Node2D" unique_id=1386580037]
+[node name="Game" type="Node2D" unique_id=1386580037 node_paths=PackedStringArray("JoinButton")]
 y_sort_enabled = true
 script = ExtResource("1_t7o7j")
+JoinButton = NodePath("CanvasLayer/Button")
 
 [node name="Offset" type="Node2D" parent="." unique_id=1267840680]
 position = Vector2(432, 720)
@@ -37,3 +38,20 @@ scale = Vector2(2.5, 2)
 color = Color(0.011764706, 0.63529414, 0.79607844, 1)
 polygon = PackedVector2Array(-24, -24, -24, 24, 24, 24, 24, -24)
 uv = PackedVector2Array(-24, -24, -24, 24, 24, 24, 24, -24)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1363614710]
+
+[node name="Button" type="Button" parent="CanvasLayer" unique_id=1205036894]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "Join"

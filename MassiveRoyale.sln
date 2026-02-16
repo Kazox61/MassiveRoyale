@@ -14,6 +14,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassiveSerialization", "mas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassiveQol", "massive-qol\Runtime\MassiveQol.csproj", "{BD182168-CCAC-4874-9F9A-139AAC8125A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassiveCommon", "MassiveCommon\MassiveCommon.csproj", "{00262470-277A-4EB6-A7DC-CB0769677B89}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{815DF4EA-2366-4251-9DF8-C211A7B2FFE6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 	Debug|Any CPU = Debug|Any CPU
@@ -63,5 +67,17 @@ Global
 		{BD182168-CCAC-4874-9F9A-139AAC8125A3}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
 		{BD182168-CCAC-4874-9F9A-139AAC8125A3}.ExportRelease|Any CPU.ActiveCfg = Debug|Any CPU
 		{BD182168-CCAC-4874-9F9A-139AAC8125A3}.ExportRelease|Any CPU.Build.0 = Debug|Any CPU
+		{00262470-277A-4EB6-A7DC-CB0769677B89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00262470-277A-4EB6-A7DC-CB0769677B89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00262470-277A-4EB6-A7DC-CB0769677B89}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00262470-277A-4EB6-A7DC-CB0769677B89}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{00262470-277A-4EB6-A7DC-CB0769677B89}.ExportRelease|Any CPU.ActiveCfg = Debug|Any CPU
+		{00262470-277A-4EB6-A7DC-CB0769677B89}.ExportRelease|Any CPU.Build.0 = Debug|Any CPU
+		{815DF4EA-2366-4251-9DF8-C211A7B2FFE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{815DF4EA-2366-4251-9DF8-C211A7B2FFE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{815DF4EA-2366-4251-9DF8-C211A7B2FFE6}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{815DF4EA-2366-4251-9DF8-C211A7B2FFE6}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{815DF4EA-2366-4251-9DF8-C211A7B2FFE6}.ExportRelease|Any CPU.ActiveCfg = Debug|Any CPU
+		{815DF4EA-2366-4251-9DF8-C211A7B2FFE6}.ExportRelease|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 EndGlobal

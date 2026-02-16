@@ -37,11 +37,11 @@ script = ExtResource("1_xvhc5")
 _entityBehaviours = [NodePath("TransformViewBehavior"), NodePath("HealthViewBehavior"), NodePath("AnimationBehavior")]
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=967168408]
-visible = false
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_ovm5h")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=901079831]
+visible = false
 scale = Vector2(1.5, 1.5)
 sprite_frames = ExtResource("5_hj1uk")
 animation = &"Down"

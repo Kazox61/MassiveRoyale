@@ -3,11 +3,10 @@ using Massive;
 using Massive.Netcode;
 using Massive.QoL;
 using MassiveRoyale.Core.Components;
-using MassiveRoyale.Core.Input;
 
 namespace MassiveRoyale.Core;
 
-public class StartSystem : CoreSystem, IFirstTick, IUpdate {
+public class StartSystem : CoreSystem, IFirstTick {
 	public static Team RedTeam = new Team { TeamIndex = 0, Direction = 1 };
 	public static Team BlueTeam = new Team { TeamIndex = 1, Direction = -1 };
 	public static Team[] Teams = [RedTeam, BlueTeam];
@@ -46,31 +45,5 @@ public class StartSystem : CoreSystem, IFirstTick, IUpdate {
 		entity.Set(new Health { Current = config.Health.ToFP(), Max = config.Health.ToFP() });
 		entity.Set(new ViewAsset(config.AssetId));
 		return entity;
-	}
-	
-	private void CreateTroop(Team team, FVector2 field, TroopConfig config) {
-		var entity = World.CreateEntity();
-		entity.Set(team);
-		entity.Set(new Transform { Position = field });
-		entity.Set(new Hitbox { Radius = config.HitboxRadius, ElevationLayer = config.HitboxLayer });
-		entity.Set(new DetectionRange { Value = config.DetectionRange });
-		entity.Set(new NextAttack { Range = config.AttackRange, Damage = config.AttackDamage, TargetElevationLayer = config.AttackTargetLayer });
-		entity.Set(new Movement { Speed = config.Speed });
-		entity.Set(new PushWeight { Value = config.PushWeight });
-		entity.Set(new Health { Current = config.Health.ToFP(), Max = config.Health.ToFP() });
-		entity.Set(new ViewAsset(config.AssetId));
-	}
-
-	public void Update() {
-		var playerInputs = Inputs.GetFreshInputs<PlayerInput>();
-		foreach (var (channel, playerInputSource) in playerInputs) {
-			if (!playerInputSource.IsFresh) {
-				continue;
-			}
-			var team = Teams[channel];
-			var field = playerInputSource.LastFresh().Position;
-			var config = TroopConfigTable.Table[playerInputSource.LastFresh().Number - 1];
-			CreateTroop(team, field, config);
-		}
 	}
 }

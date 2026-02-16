@@ -1,31 +1,67 @@
-﻿using Fixed64;
+﻿using System.Net;
+using Fixed64;
 using Godot;
 using massive_godot_integration.view_synchronizer;
 using Massive.Netcode;
+using MassiveCommon;
 using MassiveRoyale.Core;
 using MassiveRoyale.Core.Input;
 
 namespace MassiveRoyale.Client.core;
 
 public partial class ClientGame : Node2D {
-	private Session _session;
-	private GameRunner _gameRunner;
-	private GodotViewSynchronizer _godotViewSynchronizer;
+	public static ClientGame Instance { get; private set; }
 	
+	[Export] public Button JoinButton;
+	
+	public GodotViewSynchronizer GodotViewSynchronizer { get; private set; }
+	public Massive.Netcode.Client Client { get; private set; }
+	public float ClientTime { get; private set; }
+	public IGameSetup GameSetup { get; private set; }
+	public Session Session => Client?.Session;
+
+	public int LocalPlayerChannel => Client?.Connection.Channel ?? 0;
+
 	public override void _EnterTree() {
-		_session = new Session();
-		_gameRunner = new GameRunner(_session);
+		Instance = this;
+		GodotViewSynchronizer = new GodotViewSynchronizer();
 		
-		_godotViewSynchronizer = new GodotViewSynchronizer();
+		JoinButton.Pressed += JoinGame;
+	}
+
+	public override void _ExitTree() {
+		Instance = null;
+		JoinButton.Pressed -= JoinGame;
+	}
+
+	private void JoinGame() {
+		Client = new Massive.Netcode.Client(new SessionConfig(), new TcpConnection(), 0.1);
+		Client.InputIdentifiers.RegisterAutomaticallyFromAllAssemblies();
+
+		GameSetup = new GameSetup();
+
+		GameSetup.SetupGame(Session.Systems, Session.World, 0);
+
+		Session.Systems.Build(Session);
+
+		var basicSimulation = new BasicSimulation(Session.Systems);
+
+		Session.Simulations.Add(basicSimulation);
+
+		// basicSimulation.Initialize();
+
+		Client.Connection.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 6348));
 	}
 
 	public override void _PhysicsProcess(double delta) {
-		ProcessInput();
-		_gameRunner.ProcessTick();
-		_godotViewSynchronizer.SynchronizeAll(_session.World);
-	}
+		if (Client == null || !Client.Connection.IsConnected) {
+			return;
+		}
+		
+		JoinButton.Hide();
+		
+		ClientTime += (float)delta;
 
-	private void ProcessInput() {
 		var numberPressed = 1;
 		if (Input.IsKeyPressed(Key.Key1)) {
 			numberPressed = 1;
@@ -46,17 +82,17 @@ public partial class ClientGame : Node2D {
 		var fieldX = Mathf.RoundToInt(mousePosition.X / GameConfig.PixelPerField);
 		var fieldY = Mathf.RoundToInt(mousePosition.Y / GameConfig.PixelPerField);
 		if (Input.IsActionJustPressed("left_click")) {
-			_session.Inputs.SetPredictionInput(0, new PlayerInput {
-				Position = new FVector2(fieldX.ToFP(), fieldY.ToFP()), 
-				Number = numberPressed
-			});
+			Client.Session.Inputs.AppendPredictionEvent(
+				Client.Connection.Channel,
+				new PlayerInput {
+					Position = new FVector2(fieldX.ToFP(), fieldY.ToFP()), 
+					Number = numberPressed
+				}
+			);
 		}
+
+		Client.Update(ClientTime);
 		
-		if (Input.IsActionJustPressed("right_click")) {
-			_session.Inputs.SetPredictionInput(1, new PlayerInput {
-				Position = new FVector2(fieldX.ToFP(), fieldY.ToFP()), 
-				Number = numberPressed
-			});
-		}
+		GodotViewSynchronizer.SynchronizeAll(Session.World);
 	}
 }

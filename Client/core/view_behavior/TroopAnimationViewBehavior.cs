@@ -29,6 +29,7 @@ public partial class TroopAnimationViewBehavior : EntityBehaviour {
 	}
 
 	private void Update() {
+		return;
 		if (!_attackProgresses.Has(_entity.Id)) {
 			if (!_entity.IsAlive) {
 				return;
