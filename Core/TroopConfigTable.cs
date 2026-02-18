@@ -22,7 +22,7 @@ public static class TroopConfigTable {
 public class TroopConfig {
 	public ElevationLayer HitboxLayer = ElevationLayer.Ground;
 	public FP HitboxRadius = FP.Half;
-	public FP Speed = 4.ToFP();
+	public FP Speed = 2.ToFP();
 	public int PushWeight = 1;
 	public int Health;
 	public int DetectionRange = 5;

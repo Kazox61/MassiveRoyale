@@ -23,6 +23,9 @@ public class DetectionSystem : CoreSystem, IUpdate {
 			var currentPosition = transform.Position;
 			var detectionRangeValue = detectionRange.Value.ToFP();
 			var targetElevationLayer = nextAttack.TargetElevationLayer;
+			
+			var riverY = GameConfig.BoardFieldHeightHalf.ToFP();
+			var selfSide = currentPosition.Y >= riverY;
 
 			World.ForEach((Entity targetEntity, ref Team targetTeam, ref Transform targetTransform, ref Hitbox targetHitbox) => {
 				if (teamIndex == targetTeam.TeamIndex) {
@@ -30,6 +33,11 @@ public class DetectionSystem : CoreSystem, IUpdate {
 				}
 				
 				if (!LayerUtility.HasLayer(targetElevationLayer, targetHitbox.ElevationLayer)) {
+					return;
+				}
+				
+				var targetSide = targetTransform.Position.Y >= riverY;
+				if (selfSide != targetSide) {
 					return;
 				}
 

@@ -9,23 +9,27 @@ public class SeparationSystem : CoreSystem, IUpdate {
 	public void Update() {
 		var entityIds = new List<int>();
 
-		foreach (var entity in World.Include<Transform, Hitbox, PushWeight>().Entities) {
-			entityIds.Add(entity.Id);
+		foreach (var entityId in World.Include<Transform, Hitbox, PushWeight>()) {
+			entityIds.Add(entityId);
 		}
 
-		for (var i = 0; i < entityIds.Count; i++) {
-			var a = World.GetEntity(entityIds[i]);
+		var transforms = World.DataSet<Transform>();
+		var hitboxes = World.DataSet<Hitbox>();
+		var pushWeights = World.DataSet<PushWeight>();
 
-			ref var transformA = ref a.Get<Transform>();
-			ref var hitboxA = ref a.Get<Hitbox>();
-			ref var pushWeightA = ref a.Get<PushWeight>();
+		for (var i = 0; i < entityIds.Count; i++) {
+			var idA = entityIds[i];
+
+			ref var transformA = ref transforms.Get(idA);
+			ref var hitboxA = ref hitboxes.Get(idA);
+			ref var pushWeightA = ref pushWeights.Get(idA);
 
 			for (var j = i + 1; j < entityIds.Count; j++) {
-				var b = World.GetEntity(entityIds[j]);
+				var idB = entityIds[j];
 
-				ref var transformB = ref b.Get<Transform>();
-				ref var hitboxB = ref b.Get<Hitbox>();
-				ref var pushWeightB = ref b.Get<PushWeight>();
+				ref var transformB = ref transforms.Get(idB);
+				ref var hitboxB = ref hitboxes.Get(idB);
+				ref var pushWeightB = ref pushWeights.Get(idB);
 
 				var deltaX = transformB.Position.X - transformA.Position.X;
 				var deltaY = transformB.Position.Y - transformA.Position.Y;
@@ -42,7 +46,7 @@ public class SeparationSystem : CoreSystem, IUpdate {
 				}
 
 				if (pushWeightA.Value == FP.Zero && pushWeightB.Value == FP.Zero) {
-					throw new InvalidOperationException($"Two immovable entities overlap: {a.Id} and {b.Id}");
+					throw new InvalidOperationException($"Two immovable entities overlap: {idA} and {idB}");
 				}
 
 				var overlap = minDist - dist;
