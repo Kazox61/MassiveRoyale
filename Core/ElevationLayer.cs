@@ -2,8 +2,8 @@
 
 [Flags]
 public enum ElevationLayer {
-	None   = 0,
+	None = 0,
 	Ground = 1 << 0,
-	Air    = 1 << 1,
-	Any    = Ground | Air
+	Air = 1 << 1,
+	GroundAir = Ground | Air
 }

@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://b11b0vfuexxsj"]
 
 [ext_resource type="Script" uid="uid://df7a2wedq2f01" path="res://core/ClientGame.cs" id="1_t7o7j"]
+[ext_resource type="Script" uid="uid://dvj2iar0spws3" path="res://core/ui/Card.cs" id="2_e87ct"]
+[ext_resource type="Script" uid="uid://banlg75pmftyl" path="res://core/PlayerUpdater.cs" id="3_7p60w"]
 
 [node name="Game" type="Node2D" unique_id=1386580037 node_paths=PackedStringArray("JoinButton")]
 y_sort_enabled = true
@@ -11,6 +13,8 @@ JoinButton = NodePath("CanvasLayer/Button")
 position = Vector2(432, 720)
 
 [node name="Camera2D" type="Camera2D" parent="Offset" unique_id=280604985]
+position = Vector2(0, 192)
+zoom = Vector2(0.9, 0.9)
 
 [node name="Polygon2D" type="Polygon2D" parent="Offset" unique_id=1166423948]
 z_index = -1
@@ -55,3 +59,113 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 48
 text = "Join"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer" unique_id=1518568256]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -872.0
+offset_top = -440.0
+offset_right = -60.0
+offset_bottom = -140.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Card" type="Control" parent="CanvasLayer/HBoxContainer" unique_id=1672268005 node_paths=PackedStringArray("Portrait", "_clientGame")]
+clip_contents = true
+custom_minimum_size = Vector2(200, 300)
+layout_mode = 2
+script = ExtResource("2_e87ct")
+Portrait = NodePath("Portrait")
+_clientGame = NodePath("../../..")
+
+[node name="Portrait" type="TextureRect" parent="CanvasLayer/HBoxContainer/Card" unique_id=375515664]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 3
+stretch_mode = 6
+
+[node name="Card2" type="Control" parent="CanvasLayer/HBoxContainer" unique_id=1611297845 node_paths=PackedStringArray("Portrait", "_clientGame")]
+clip_contents = true
+custom_minimum_size = Vector2(200, 300)
+layout_mode = 2
+script = ExtResource("2_e87ct")
+Index = 1
+Portrait = NodePath("Portrait")
+_clientGame = NodePath("../../..")
+
+[node name="Portrait" type="TextureRect" parent="CanvasLayer/HBoxContainer/Card2" unique_id=1349882400]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 3
+stretch_mode = 6
+
+[node name="Card3" type="Control" parent="CanvasLayer/HBoxContainer" unique_id=1867067549 node_paths=PackedStringArray("Portrait", "_clientGame")]
+clip_contents = true
+custom_minimum_size = Vector2(200, 300)
+layout_mode = 2
+script = ExtResource("2_e87ct")
+Index = 2
+Portrait = NodePath("Portrait")
+_clientGame = NodePath("../../..")
+
+[node name="Portrait" type="TextureRect" parent="CanvasLayer/HBoxContainer/Card3" unique_id=2105840396]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 3
+stretch_mode = 6
+
+[node name="Card4" type="Control" parent="CanvasLayer/HBoxContainer" unique_id=1232984057 node_paths=PackedStringArray("Portrait", "_clientGame")]
+clip_contents = true
+custom_minimum_size = Vector2(200, 300)
+layout_mode = 2
+script = ExtResource("2_e87ct")
+Index = 3
+Portrait = NodePath("Portrait")
+_clientGame = NodePath("../../..")
+
+[node name="Portrait" type="TextureRect" parent="CanvasLayer/HBoxContainer/Card4" unique_id=684532954]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 3
+stretch_mode = 6
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer" unique_id=1534066664]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -872.0
+offset_top = -110.0
+offset_right = -60.0
+offset_bottom = -30.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 32
+max_value = 10.0
+show_percentage = false
+
+[node name="PlayerUpdater" type="Node" parent="." unique_id=1007778599 node_paths=PackedStringArray("_clientGame", "_cards", "_elixirBar")]
+script = ExtResource("3_7p60w")
+_clientGame = NodePath("..")
+_cards = [NodePath("../CanvasLayer/HBoxContainer/Card"), NodePath("../CanvasLayer/HBoxContainer/Card2"), NodePath("../CanvasLayer/HBoxContainer/Card3"), NodePath("../CanvasLayer/HBoxContainer/Card4")]
+_elixirBar = NodePath("../CanvasLayer/ProgressBar")

@@ -9,6 +9,7 @@ public static class GameConfig {
 	public const int BoardFieldHeightHalf = BoardFieldHeight / 2;
 	public const int PixelPerField = 48;
 	
-	public const int TicksPerSecond = 30;
+	// session config has the tick rate as well, you need to change it there as well
+	public const int TicksPerSecond = 60;
 	public static FP DeltaTime => FP.One / TicksPerSecond;
 }

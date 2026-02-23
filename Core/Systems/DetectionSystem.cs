@@ -21,14 +21,19 @@ public class DetectionSystem : CoreSystem, IUpdate {
 			var closestDistanceSqr = FP.MaxValue;
 			var teamIndex = team.TeamIndex;
 			var currentPosition = transform.Position;
-			var detectionRangeValue = detectionRange.Value.ToFP();
+			var detectionRangeValue = detectionRange.Value;
 			var targetElevationLayer = nextAttack.TargetElevationLayer;
 			
 			var riverY = GameConfig.BoardFieldHeightHalf.ToFP();
 			var selfSide = currentPosition.Y >= riverY;
+			var targetOnlyBuildings = nextAttack.TargetsOnlyBuildings;
 
 			World.ForEach((Entity targetEntity, ref Team targetTeam, ref Transform targetTransform, ref Hitbox targetHitbox) => {
 				if (teamIndex == targetTeam.TeamIndex) {
+					return;
+				}
+				
+				if (targetOnlyBuildings && !targetEntity.Has<Building>()) {
 					return;
 				}
 				

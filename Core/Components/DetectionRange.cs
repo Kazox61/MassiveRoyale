@@ -1,5 +1,7 @@
-﻿namespace MassiveRoyale.Core.Components;
+﻿using Fixed64;
+
+namespace MassiveRoyale.Core.Components;
 
 public struct DetectionRange {
-	public int Value;
+	public FP Value;
 }

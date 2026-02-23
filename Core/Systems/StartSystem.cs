@@ -19,6 +19,9 @@ public class StartSystem : CoreSystem, IFirstTick {
 	public static FVector2 BlueKingTowerPosition = new FVector2(9.ToFP(), 28.ToFP());
 	
 	public void FirstTick() {
+		CreatePlayer(RedTeam);
+		CreatePlayer(BlueTeam);
+		
 		CreateBuilding(RedTeam, RedLeftTowerPosition, BuildingConfigTable.Table[0]).Add<Tower>();
 		CreateBuilding(RedTeam, RedRightTowerPosition, BuildingConfigTable.Table[0]).Add<Tower>();
 		
@@ -27,23 +30,28 @@ public class StartSystem : CoreSystem, IFirstTick {
 		
 		CreateBuilding(RedTeam, RedKingTowerPosition, BuildingConfigTable.Table[1]).Add<Tower>();
 		CreateBuilding(BlueTeam, BlueKingTowerPosition, BuildingConfigTable.Table[1]).Add<Tower>();
-		//CreateTroop(RedTeam, new FVector2(8.5.ToFP(), 5.5.ToFP()));
-		// CreateTroop(RedTeam, new FVector2(9.5.ToFP(), 12.5.ToFP()));
-		
-		// CreateTroop(BlueTeam, new FVector2(9.5.ToFP(), 22.5.ToFP()));
-		// CreateTroop(BlueTeam, new FVector2(2.5.ToFP(), 28.5.ToFP()));
 	}
 	
 	private Entity CreateBuilding(Team team, FVector2 field, BuildingConfig config) {
-		var entity = World.CreateEntity();
+		var entity = World.CreateEntity(new Building());
 		entity.Set(team);
 		entity.Set(new Transform { Position = field });
 		entity.Set(new Hitbox { Radius = config.HitboxRadius, ElevationLayer = config.HitboxLayer });
 		entity.Set(new DetectionRange { Value = config.DetectionRange });
-		entity.Set(new NextAttack { Range = config.AttackRange, Damage = config.AttackDamage, TargetElevationLayer = config.AttackTargetLayer });
+		entity.Set(new NextAttack { Range = config.AttackRange, Interval = config.AttackInterval, Damage = config.AttackDamage, TargetElevationLayer = config.AttackTargetLayer });
 		entity.Set(new PushWeight { Value = 0 });
 		entity.Set(new Health { Current = config.Health.ToFP(), Max = config.Health.ToFP() });
 		entity.Set(new ViewAsset(config.AssetId));
+		return entity;
+	}
+
+	private Entity CreatePlayer(Team team) {
+		var entity = World.CreateEntity(new Player {
+			InputChannel = team.TeamIndex,
+			Elixir = FP.Zero,
+			CardQueue = [0, 1, 2, 3]
+		});
+		entity.Set(team);
 		return entity;
 	}
 }

@@ -30,6 +30,10 @@ public class SeparationSystem : CoreSystem, IUpdate {
 				ref var transformB = ref transforms.Get(idB);
 				ref var hitboxB = ref hitboxes.Get(idB);
 				ref var pushWeightB = ref pushWeights.Get(idB);
+				
+				if (!LayerUtility.HasLayer(hitboxA.ElevationLayer, hitboxB.ElevationLayer)) {
+					continue;
+				}
 
 				var deltaX = transformB.Position.X - transformA.Position.X;
 				var deltaY = transformB.Position.Y - transformA.Position.Y;

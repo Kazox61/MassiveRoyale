@@ -7,6 +7,7 @@ public class GameSetup : IGameSetup {
 	public void SetupGame(MassiveSystems systems, MassiveWorld world, uint seed) {
 		systems
 			.New<StartSystem>()
+			.New<ElixirSystem>()
 			.New<SpawnTroopSystem>()
 			.New<WaypointMovementSystem>()
 			.New<TargetApproachSystem>()

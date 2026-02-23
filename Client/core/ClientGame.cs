@@ -35,6 +35,8 @@ public partial class ClientGame : Node2D {
 	}
 
 	private void JoinGame() {
+		JoinButton.Hide();
+		
 		Client = new Massive.Netcode.Client(new SessionConfig(), new TcpConnection(), 0.1);
 		Client.InputIdentifiers.RegisterAutomaticallyFromAllAssemblies();
 
@@ -58,38 +60,7 @@ public partial class ClientGame : Node2D {
 			return;
 		}
 		
-		JoinButton.Hide();
-		
 		ClientTime += (float)delta;
-
-		var numberPressed = 1;
-		if (Input.IsKeyPressed(Key.Key1)) {
-			numberPressed = 1;
-		}
-		if (Input.IsKeyPressed(Key.Key2)) {
-			numberPressed = 2;
-		}
-		if (Input.IsKeyPressed(Key.Key3)) {
-			numberPressed = 3;
-		}
-		if (Input.IsKeyPressed(Key.Key4)) {
-			numberPressed = 4;
-		}
-		
-		var camera = GetViewport().GetCamera2D();
-		var mousePosition = camera.GetGlobalMousePosition();
-		
-		var fieldX = Mathf.RoundToInt(mousePosition.X / GameConfig.PixelPerField);
-		var fieldY = Mathf.RoundToInt(mousePosition.Y / GameConfig.PixelPerField);
-		if (Input.IsActionJustPressed("left_click")) {
-			Client.Session.Inputs.AppendPredictionEvent(
-				Client.Connection.Channel,
-				new PlayerInput {
-					Position = new FVector2(fieldX.ToFP(), fieldY.ToFP()), 
-					Number = numberPressed
-				}
-			);
-		}
 
 		Client.Update(ClientTime);
 		

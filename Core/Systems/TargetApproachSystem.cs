@@ -20,14 +20,14 @@ public class TargetApproachSystem : CoreSystem, IUpdate {
 				var dx = targetTransform.Position.X - transform.Position.X;
 				var dy = targetTransform.Position.Y - transform.Position.Y;
 				var distanceSqr = dx * dx + dy * dy;
-				var effectiveRange = nextAttack.Range.ToFP() + targetHitbox.Radius;
+				var effectiveRange = nextAttack.Range + targetHitbox.Radius;
 				
 				transform.Rotation = FP.Atan2(dy, dx);
 
 				if (distanceSqr <= effectiveRange * effectiveRange) {
 					entity.Set(new AttackProgress {
 						ProgressRatio = FP.Zero,
-						Duration = FP.One,
+						Duration = nextAttack.Interval,
 						AttackExecutionRatio = FP.Half
 					});
 					
