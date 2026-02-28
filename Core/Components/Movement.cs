@@ -8,9 +8,27 @@ public struct Movement {
 	
 	public void MoveTowards(ref Transform transform, FVector2 targetPosition) {
 		var direction = targetPosition - transform.Position;
-		var step = FVector2.NormalizeSafe(direction) * Speed * GameConfig.DeltaTime;
-		// we don't care about overshooting for now
-		// if (FVector2.LengthSqr(step) >= FVector2.LengthSqr(direction)) { }
+		var distanceSqr = FVector2.LengthSqr(direction);
+
+		if (distanceSqr <= 0.0001f.ToFP()) {
+			transform.Position = targetPosition;
+			return;
+		}
+		
+		var distance = FP.Sqrt(distanceSqr);
+		var maxStep = Speed * GameConfig.DeltaTime;
+		
+		if (maxStep >= distance) {
+			transform.Position = targetPosition;
+			return;
+		}
+		
+		var step = direction / distance * maxStep;
+		// Failsafe: never allow zero step if not at target
+		if (FVector2.LengthSqr(step) == FP.Zero) {
+			step = direction / distance; // minimal 1 unit direction
+		}
+		
 		transform.Position += step;
 	}
 

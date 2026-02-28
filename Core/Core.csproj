@@ -8,10 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Events\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\fixed-point\Runtime\FixedPoint.csproj" />
       <ProjectReference Include="..\massive-ecs\Runtime\Massive.csproj" />
       <ProjectReference Include="..\massive-netcode\Runtime\MassiveNetcode.csproj" />
