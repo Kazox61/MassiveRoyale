@@ -8,13 +8,11 @@ public static class CardConfigTable {
 			Name = "Knight",
 			Cost = 3,
 			Spawns = [
-				new SpawnConfig {
-					TroopConfig = new TroopConfig {
-						Health = 690,
-						AttackDamage = 79,
-						AttackInterval = 1.2f.ToFP(),
-						AssetId = 1,
-					},
+				new TroopConfig {
+					Health = 690,
+					AttackDamage = 79,
+					AttackInterval = 1.2f.ToFP(),
+					AssetId = 1,
 				},
 			]
 		},
@@ -22,86 +20,75 @@ public static class CardConfigTable {
 			Name = "Archers",
 			Cost = 3,
 			Spawns = [
-				new SpawnConfig {
-					TroopConfig = new TroopConfig {
-						Health = 119,
-						AttackDamage = 42,
-						AttackInterval = 1.1f.ToFP(),
-						DetectionRange = 5.ToFP(),
-						AttackRange = 5.ToFP(),
-						AttackTargetLayer = ElevationLayer.GroundAir,
-						AssetId = 1,
-					},
+				new TroopConfig {
+					Health = 119,
+					AttackDamage = 42,
+					AttackInterval = 1.1f.ToFP(),
+					DetectionRange = 5.ToFP(),
+					AttackRange = 5.ToFP(),
+					AttackTargetLayer = ElevationLayer.GroundAir,
+					AssetId = 1,
 					OffsetX = -FP.Half
 				},
-				new SpawnConfig {
-					TroopConfig = new TroopConfig {
-						Health = 119,
-						AttackDamage = 42,
-						AttackInterval = 1.1f.ToFP(),
-						DetectionRange = 5.ToFP(),
-						AttackRange = 5.ToFP(),
-						AttackTargetLayer = ElevationLayer.GroundAir,
-						AssetId = 1,
-					},
+				new TroopConfig {
+					Health = 119,
+					AttackDamage = 42,
+					AttackInterval = 1.1f.ToFP(),
+					DetectionRange = 5.ToFP(),
+					AttackRange = 5.ToFP(),
+					AttackTargetLayer = ElevationLayer.GroundAir,
+					AssetId = 1,
 					OffsetX = FP.Half
-				}
+				},
 			]
 		},
 		new CardConfig {
 			Name = "Giant",
 			Cost = 5,
 			Spawns = [
-				new SpawnConfig {
-					TroopConfig = new TroopConfig {
-						Health = 1930,
-						AttackDamage = 120,
-						AttackInterval = 1.5f.ToFP(),
-						AssetId = 1,
-						Speed = FP.One,
-						TargetsOnlyBuildings = true
-					}
-				}]
+				new TroopConfig {
+					Health = 1930,
+					AttackDamage = 120,
+					AttackInterval = 1.5f.ToFP(),
+					AssetId = 1,
+					Speed = FP.One,
+					TargetsOnlyBuildings = true
+				}
+			]
 		},
 		new CardConfig {
 			Name = "Minions",
 			Cost = 3,
 			Spawns = [
-				new SpawnConfig {
-					TroopConfig = new TroopConfig {
-						HitboxLayer = ElevationLayer.Air,
-						Health = 90,
-						AttackDamage = 42,
-						AttackInterval = FP.One,
-						AttackTargetLayer = ElevationLayer.GroundAir,
-						Speed = FP.Three,
-						AssetId = 1,
-					},
+				new TroopConfig {
+					HitboxLayer = ElevationLayer.Air,
+					Health = 90,
+					AttackDamage = 42,
+					AttackInterval = FP.One,
+					AttackTargetLayer = ElevationLayer.GroundAir,
+					Speed = FP.Three,
+					AssetId = 1,
 					OffsetY = FP.Half
 				},
-				new SpawnConfig {
-					TroopConfig = new TroopConfig {
-						HitboxLayer = ElevationLayer.Air,
-						Health = 90,
-						AttackDamage = 42,
-						AttackInterval = FP.One,
-						AttackTargetLayer = ElevationLayer.GroundAir,
-						Speed = FP.Three,
-						AssetId = 1,
-					},
+				new TroopConfig {
+					HitboxLayer = ElevationLayer.Air,
+					Health = 90,
+					AttackDamage = 42,
+					AttackInterval = FP.One,
+					AttackTargetLayer = ElevationLayer.GroundAir,
+					Speed = FP.Three,
+					AssetId = 1,
 					OffsetX = -FP.Half,
 					OffsetY = -FP.Half
 				},
-				new SpawnConfig {
-					TroopConfig = new TroopConfig {
-						HitboxLayer = ElevationLayer.Air,
-						Health = 90,
-						AttackDamage = 42,
-						AttackInterval = FP.One,
-						AttackTargetLayer = ElevationLayer.GroundAir,
-						Speed = FP.Three,
-						AssetId = 1,
-					},
+				new TroopConfig {
+					HitboxLayer = ElevationLayer.Air,
+					Health = 90,
+					AttackDamage = 42,
+					AttackInterval = FP.One,
+					AttackTargetLayer = ElevationLayer.GroundAir,
+					Speed = FP.Three,
+					AssetId = 1,
 					OffsetX = FP.Half,
 					OffsetY = -FP.Half
 				},
@@ -111,15 +98,23 @@ public static class CardConfigTable {
 			Name = "Cannon",
 			Cost = 3,
 			Spawns = [
-				new SpawnConfig {
-					BuildingConfig = new BuildingConfig {
-						Health = 350,
-						DetectionRange = 5.5.ToFP(),
-						AttackRange = 5.5.ToFP(),
-						AttackDamage = 83,
-						AttackInterval = 0.9.ToFP(),
-						AssetId = 1,
-					}
+				new BuildingConfig {
+					Health = 350,
+					DetectionRange = 5.5.ToFP(),
+					AttackRange = 5.5.ToFP(),
+					AttackDamage = 83,
+					AttackInterval = 0.9.ToFP(),
+					AssetId = 1,
+				}
+			]
+		},
+		new CardConfig {
+			Name = "Arrows",
+			Cost = 3,
+			Spawns = [
+				new SpellConfig {
+					Radius = 4.ToFP(),
+					Damage = 48
 				}
 			]
 		}
@@ -132,14 +127,12 @@ public class CardConfig {
 	public SpawnConfig[] Spawns;
 }
 
-public class SpawnConfig {
-	public TroopConfig? TroopConfig;
-	public BuildingConfig? BuildingConfig;
+public abstract class SpawnConfig {
 	public FP OffsetX;
 	public FP OffsetY;
 }
 
-public class TroopConfig {
+public class TroopConfig : SpawnConfig {
 	public ElevationLayer HitboxLayer = ElevationLayer.Ground;
 	public FP HitboxRadius = FP.Half;
 	public FP Speed = FP.Two;
@@ -152,4 +145,9 @@ public class TroopConfig {
 	public ElevationLayer AttackTargetLayer = ElevationLayer.Ground;
 	public bool TargetsOnlyBuildings;
 	public int AssetId;
+}
+
+public class SpellConfig : SpawnConfig {
+	public FP Radius;
+	public int Damage;
 }

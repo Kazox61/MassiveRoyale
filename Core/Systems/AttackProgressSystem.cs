@@ -15,12 +15,11 @@ public class AttackProgressSystem : CoreSystem, IUpdate {
 					return;
 				}
 				
-				var hitEntity = World.CreateEntity();
-				hitEntity.Set(new Hit { 
-					SourceEntifier = entity.Entifier,
-					TargetEntifier = entity.Get<Target>().TargetEntifier
+				World.CreateEntity(new Damage {
+					Value = nextAttack.Damage,
+					TargetEntifier = entity.Get<Target>().TargetEntifier,
+					SourceEntifier = entity.Entifier
 				});
-				hitEntity.Set(new Damage { Value = nextAttack.Damage });
 				
 				attackProgress.HasExecuted = true;
 			}

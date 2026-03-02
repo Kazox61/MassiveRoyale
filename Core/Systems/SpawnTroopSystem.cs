@@ -33,12 +33,23 @@ public class SpawnTroopSystem : CoreSystem, IUpdate {
 				foreach (var spawnConfig in cardConfig.Spawns) {
 					var spawnPosition = position + new FVector2(spawnConfig.OffsetX, spawnConfig.OffsetY);
 					
-					if (spawnConfig.TroopConfig != null) {
-						CreateTroop(team, spawnPosition, spawnConfig.TroopConfig);
+					if (spawnConfig is TroopConfig troopConfig) {
+						CreateTroop(team, spawnPosition, troopConfig);
 					}
 					
-					if (spawnConfig.BuildingConfig != null) {
-						CreateBuilding(team, spawnPosition, spawnConfig.BuildingConfig);
+					if (spawnConfig is BuildingConfig buildingConfig) {
+						CreateBuilding(team, spawnPosition, buildingConfig);
+					}
+					
+					if (spawnConfig is SpellConfig spellConfig) {
+						World.ForEach((Entity entity, ref Team otherTeam, ref Transform transform) => {
+							if (otherTeam.TeamIndex != team.TeamIndex && FVector2.LengthSqr(transform.Position - spawnPosition) <= spellConfig.Radius * spellConfig.Radius) {
+								World.CreateEntity(new Damage {
+									Value = spellConfig.Damage,
+									TargetEntifier = entity.Entifier
+								});
+							}
+						});
 					}
 				}
 				

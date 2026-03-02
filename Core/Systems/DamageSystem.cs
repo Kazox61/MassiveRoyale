@@ -7,8 +7,8 @@ namespace MassiveRoyale.Core;
 
 public class DamageSystem : CoreSystem, IUpdate {
 	public void Update() {
-		World.ForEach((Entity hitEntity, ref Hit hit, ref Damage damage) => {
-			var targetEntity = hit.TargetEntifier.In(World);
+		World.ForEach((Entity hitEntity, ref Damage damage) => {
+			var targetEntity = damage.TargetEntifier.In(World);
 			if (!targetEntity.IsAlive) {
 				hitEntity.Destroy();
 				return;

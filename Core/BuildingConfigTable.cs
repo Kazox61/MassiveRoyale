@@ -25,7 +25,7 @@ public static class BuildingConfigTable {
 	];
 }
 
-public class BuildingConfig {
+public class BuildingConfig : SpawnConfig {
 	public ElevationLayer HitboxLayer = ElevationLayer.Ground;
 	public FP HitboxRadius = FP.One;
 	public int Health;
