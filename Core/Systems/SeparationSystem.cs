@@ -60,12 +60,34 @@ public class SeparationSystem : CoreSystem, IUpdate {
 				if (pushWeightA.Value == FP.Zero) {
 					transformB.Position.X += normalizedDeltaX * overlap;
 					transformB.Position.Y += normalizedDeltaY * overlap;
+
+					/*
+					// Add perpendicular slide bias
+					var tangentX = -normalizedDeltaY;
+					var tangentY = normalizedDeltaX;
+
+					var slideBias = 0.005f.ToFP(); // tune carefully
+					transformB.Position.X += tangentX * slideBias;
+					transformB.Position.Y += tangentY * slideBias;
+					*/
+
 					continue;
 				}
 
 				if (pushWeightB.Value == FP.Zero) {
 					transformA.Position.X -= normalizedDeltaX * overlap;
 					transformA.Position.Y -= normalizedDeltaY * overlap;
+
+					/*
+					// Add tiny perpendicular nudge to break deadlocks
+					var tangentX = -normalizedDeltaY;
+					var tangentY = normalizedDeltaX;
+
+					var slideBias = 0.005f.ToFP(); // tune carefully
+					transformA.Position.X += tangentX * slideBias;
+					transformA.Position.Y += tangentY * slideBias;
+					*/
+
 					continue;
 				}
 

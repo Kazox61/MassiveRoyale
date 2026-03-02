@@ -73,12 +73,13 @@ offset_bottom = -140.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="Card" type="Control" parent="CanvasLayer/HBoxContainer" unique_id=1672268005 node_paths=PackedStringArray("Portrait", "_clientGame")]
+[node name="Card" type="Control" parent="CanvasLayer/HBoxContainer" unique_id=1672268005 node_paths=PackedStringArray("Portrait", "NameLabel", "_clientGame")]
 clip_contents = true
 custom_minimum_size = Vector2(200, 300)
 layout_mode = 2
 script = ExtResource("2_e87ct")
 Portrait = NodePath("Portrait")
+NameLabel = NodePath("Label")
 _clientGame = NodePath("../../..")
 
 [node name="Portrait" type="TextureRect" parent="CanvasLayer/HBoxContainer/Card" unique_id=375515664]
@@ -91,13 +92,22 @@ grow_vertical = 2
 expand_mode = 3
 stretch_mode = 6
 
-[node name="Card2" type="Control" parent="CanvasLayer/HBoxContainer" unique_id=1611297845 node_paths=PackedStringArray("Portrait", "_clientGame")]
+[node name="Label" type="Label" parent="CanvasLayer/HBoxContainer/Card" unique_id=1564140011]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+
+[node name="Card2" type="Control" parent="CanvasLayer/HBoxContainer" unique_id=1611297845 node_paths=PackedStringArray("Portrait", "NameLabel", "_clientGame")]
 clip_contents = true
 custom_minimum_size = Vector2(200, 300)
 layout_mode = 2
 script = ExtResource("2_e87ct")
 Index = 1
 Portrait = NodePath("Portrait")
+NameLabel = NodePath("Label")
 _clientGame = NodePath("../../..")
 
 [node name="Portrait" type="TextureRect" parent="CanvasLayer/HBoxContainer/Card2" unique_id=1349882400]
@@ -110,13 +120,22 @@ grow_vertical = 2
 expand_mode = 3
 stretch_mode = 6
 
-[node name="Card3" type="Control" parent="CanvasLayer/HBoxContainer" unique_id=1867067549 node_paths=PackedStringArray("Portrait", "_clientGame")]
+[node name="Label" type="Label" parent="CanvasLayer/HBoxContainer/Card2" unique_id=1649388288]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+
+[node name="Card3" type="Control" parent="CanvasLayer/HBoxContainer" unique_id=1867067549 node_paths=PackedStringArray("Portrait", "NameLabel", "_clientGame")]
 clip_contents = true
 custom_minimum_size = Vector2(200, 300)
 layout_mode = 2
 script = ExtResource("2_e87ct")
 Index = 2
 Portrait = NodePath("Portrait")
+NameLabel = NodePath("Label")
 _clientGame = NodePath("../../..")
 
 [node name="Portrait" type="TextureRect" parent="CanvasLayer/HBoxContainer/Card3" unique_id=2105840396]
@@ -129,13 +148,22 @@ grow_vertical = 2
 expand_mode = 3
 stretch_mode = 6
 
-[node name="Card4" type="Control" parent="CanvasLayer/HBoxContainer" unique_id=1232984057 node_paths=PackedStringArray("Portrait", "_clientGame")]
+[node name="Label" type="Label" parent="CanvasLayer/HBoxContainer/Card3" unique_id=1502046165]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+
+[node name="Card4" type="Control" parent="CanvasLayer/HBoxContainer" unique_id=1232984057 node_paths=PackedStringArray("Portrait", "NameLabel", "_clientGame")]
 clip_contents = true
 custom_minimum_size = Vector2(200, 300)
 layout_mode = 2
 script = ExtResource("2_e87ct")
 Index = 3
 Portrait = NodePath("Portrait")
+NameLabel = NodePath("Label")
 _clientGame = NodePath("../../..")
 
 [node name="Portrait" type="TextureRect" parent="CanvasLayer/HBoxContainer/Card4" unique_id=684532954]
@@ -147,6 +175,14 @@ grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 3
 stretch_mode = 6
+
+[node name="Label" type="Label" parent="CanvasLayer/HBoxContainer/Card4" unique_id=274297450]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
 
 [node name="ProgressBar" type="ProgressBar" parent="CanvasLayer" unique_id=1534066664]
 anchors_preset = 3

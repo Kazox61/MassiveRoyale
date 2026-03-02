@@ -3,7 +3,7 @@
 namespace MassiveRoyale.Core;
 
 public static class CardConfigTable {
-	public static CardConfig[] Table = [
+	public static readonly CardConfig[] Table = [
 		new CardConfig {
 			Name = "Knight",
 			Cost = 3,
@@ -107,6 +107,22 @@ public static class CardConfigTable {
 				},
 			]
 		},
+		new CardConfig {
+			Name = "Cannon",
+			Cost = 3,
+			Spawns = [
+				new SpawnConfig {
+					BuildingConfig = new BuildingConfig {
+						Health = 350,
+						DetectionRange = 5.5.ToFP(),
+						AttackRange = 5.5.ToFP(),
+						AttackDamage = 83,
+						AttackInterval = 0.9.ToFP(),
+						AssetId = 1,
+					}
+				}
+			]
+		}
 	];
 }
 

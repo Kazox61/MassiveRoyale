@@ -49,7 +49,7 @@ public class StartSystem : CoreSystem, IFirstTick {
 		var entity = World.CreateEntity(new Player {
 			InputChannel = team.TeamIndex,
 			Elixir = FP.Zero,
-			CardQueue = [0, 1, 2, 3]
+			CardQueue = [0, 1, 2, 3, 4]
 		});
 		entity.Set(team);
 		return entity;

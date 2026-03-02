@@ -26,7 +26,7 @@ public partial class PlayerUpdater : Node {
 				continue;
 			}
 
-			for (var i = 0; i < player.CardQueue.Length; i++) {
+			for (var i = 0; i < 4; i++) {
 				var cardTableIndex = player.CardQueue[i];
 				var cardConfig = CardConfigTable.Table[cardTableIndex];
 				_cards[i].Update(cardConfig);

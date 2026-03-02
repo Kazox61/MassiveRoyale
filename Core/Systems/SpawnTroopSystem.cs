@@ -36,8 +36,17 @@ public class SpawnTroopSystem : CoreSystem, IUpdate {
 					if (spawnConfig.TroopConfig != null) {
 						CreateTroop(team, spawnPosition, spawnConfig.TroopConfig);
 					}
+					
+					if (spawnConfig.BuildingConfig != null) {
+						CreateBuilding(team, spawnPosition, spawnConfig.BuildingConfig);
+					}
 				}
 				
+				player.CardQueue[input.CardIndex] = player.CardQueue[4];
+				for (var i = 4; i < player.CardQueue.Length - 1; i++) {
+					player.CardQueue[i] = player.CardQueue[i + 1];
+				}
+				player.CardQueue[^1] = cardId;
 			}
 		}
 	}
@@ -53,5 +62,18 @@ public class SpawnTroopSystem : CoreSystem, IUpdate {
 		entity.Set(new PushWeight { Value = config.PushWeight });
 		entity.Set(new Health { Current = config.Health.ToFP(), Max = config.Health.ToFP() });
 		entity.Set(new ViewAsset(config.AssetId));
+	}
+	
+	private Entity CreateBuilding(Team team, FVector2 field, BuildingConfig config) {
+		var entity = World.CreateEntity(new Building());
+		entity.Set(team);
+		entity.Set(new Transform { Position = field });
+		entity.Set(new Hitbox { Radius = config.HitboxRadius, ElevationLayer = config.HitboxLayer });
+		entity.Set(new DetectionRange { Value = config.DetectionRange });
+		entity.Set(new NextAttack { Range = config.AttackRange, Interval = config.AttackInterval, Damage = config.AttackDamage, TargetElevationLayer = config.AttackTargetLayer });
+		entity.Set(new PushWeight { Value = 0 });
+		entity.Set(new Health { Current = config.Health.ToFP(), Max = config.Health.ToFP() });
+		entity.Set(new ViewAsset(config.AssetId));
+		return entity;
 	}
 }
