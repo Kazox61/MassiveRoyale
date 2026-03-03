@@ -68,7 +68,7 @@ public static class CardConfigTable {
 					AttackTargetLayer = ElevationLayer.GroundAir,
 					Speed = FP.Three,
 					AssetId = 1,
-					OffsetY = FP.Half
+					OffsetY = -FP.Half
 				},
 				new TroopConfig {
 					HitboxLayer = ElevationLayer.Air,
@@ -79,7 +79,7 @@ public static class CardConfigTable {
 					Speed = FP.Three,
 					AssetId = 1,
 					OffsetX = -FP.Half,
-					OffsetY = -FP.Half
+					OffsetY = FP.Half
 				},
 				new TroopConfig {
 					HitboxLayer = ElevationLayer.Air,
@@ -90,7 +90,7 @@ public static class CardConfigTable {
 					Speed = FP.Three,
 					AssetId = 1,
 					OffsetX = FP.Half,
-					OffsetY = -FP.Half
+					OffsetY = FP.Half
 				},
 			]
 		},
@@ -144,6 +144,18 @@ public class TroopConfig : SpawnConfig {
 	public FP AttackInterval;
 	public ElevationLayer AttackTargetLayer = ElevationLayer.Ground;
 	public bool TargetsOnlyBuildings;
+	public int AssetId;
+}
+
+public class BuildingConfig : SpawnConfig {
+	public ElevationLayer HitboxLayer = ElevationLayer.Ground;
+	public FP HitboxRadius = FP.One;
+	public int Health;
+	public FP DetectionRange = FP.One;
+	public FP AttackRange = FP.One;
+	public int AttackDamage;
+	public FP AttackInterval;
+	public ElevationLayer AttackTargetLayer = ElevationLayer.Ground;
 	public int AssetId;
 }
 

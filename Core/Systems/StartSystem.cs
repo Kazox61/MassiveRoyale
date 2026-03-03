@@ -21,15 +21,34 @@ public class StartSystem : CoreSystem, IFirstTick {
 	public void FirstTick() {
 		CreatePlayer(RedTeam);
 		CreatePlayer(BlueTeam);
+
+		var tower = new BuildingConfig {
+			Health = 1400,
+			DetectionRange = 7.5.ToFP(),
+			AttackRange = 7.5.ToFP(),
+			AttackDamage = 50,
+			AttackInterval = 0.8.ToFP(),
+			AttackTargetLayer = ElevationLayer.GroundAir,
+			AssetId = 2
+		};
+		var mainTower = new BuildingConfig {
+			Health = 2400,
+			DetectionRange = 7.ToFP(),
+			AttackRange = 7.ToFP(),
+			AttackDamage = 50,
+			AttackInterval = FP.One,
+			AttackTargetLayer = ElevationLayer.GroundAir,
+			AssetId = 3
+		};
 		
-		CreateBuilding(RedTeam, RedLeftTowerPosition, BuildingConfigTable.Table[0]).Add<Tower>();
-		CreateBuilding(RedTeam, RedRightTowerPosition, BuildingConfigTable.Table[0]).Add<Tower>();
+		CreateBuilding(RedTeam, RedLeftTowerPosition, tower).Add<Tower>();
+		CreateBuilding(RedTeam, RedRightTowerPosition, tower).Add<Tower>();
 		
-		CreateBuilding(BlueTeam, BlueLeftTowerPosition, BuildingConfigTable.Table[0]).Add<Tower>();
-		CreateBuilding(BlueTeam, BlueRightTowerPosition, BuildingConfigTable.Table[0]).Add<Tower>();
+		CreateBuilding(BlueTeam, BlueLeftTowerPosition, tower).Add<Tower>();
+		CreateBuilding(BlueTeam, BlueRightTowerPosition, tower).Add<Tower>();
 		
-		CreateBuilding(RedTeam, RedKingTowerPosition, BuildingConfigTable.Table[1]).Add<Tower>();
-		CreateBuilding(BlueTeam, BlueKingTowerPosition, BuildingConfigTable.Table[1]).Add<Tower>();
+		CreateBuilding(RedTeam, RedKingTowerPosition, mainTower).Add<Tower>();
+		CreateBuilding(BlueTeam, BlueKingTowerPosition, mainTower).Add<Tower>();
 	}
 	
 	private Entity CreateBuilding(Team team, FVector2 field, BuildingConfig config) {
