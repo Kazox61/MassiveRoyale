@@ -13,8 +13,17 @@ public class SpawnTroopSystem : CoreSystem, IUpdate {
 		
 		foreach (var (channel, input) in Inputs.GetAllEvents<PlayerInput>()) {
 			var team = StartSystem.Teams[channel % StartSystem.Teams.Length];
+			var isMirrored = team.TeamIndex % 2 == 0;
 			var position = new FVector2(input.FieldX.ToFP() + FP.Half, input.FieldY.ToFP() + FP.Half);
 			
+			if (position.X < 0 || position.X > GameConfig.BoardFieldWidth) {
+				continue;
+			}
+			
+			if (position.Y < 0 || position.Y > GameConfig.BoardFieldHeight) {
+				continue;
+			}
+
 			foreach (var playerId in players) {
 				ref var player = ref players.Get(playerId);
 				if (player.InputChannel != channel) {
@@ -24,6 +33,18 @@ public class SpawnTroopSystem : CoreSystem, IUpdate {
 				var cardId = player.CardQueue[input.CardIndex];
 				var cardConfig = CardConfigTable.Table[cardId];
 				
+				
+			
+				if (!cardConfig.AllowOtherSideSpawn) {
+					if (isMirrored && position.Y > GameConfig.BoardFieldHeightHalf.ToFP() - FP.One) {
+						continue;
+					}
+
+					if (!isMirrored && position.Y < GameConfig.BoardFieldHeightHalf.ToFP() + FP.One) {
+						continue;
+					}
+				}
+				
 				if (player.Elixir < cardConfig.Cost) {
 					continue;
 				}
@@ -31,7 +52,6 @@ public class SpawnTroopSystem : CoreSystem, IUpdate {
 				player.Elixir -= cardConfig.Cost.ToFP();
 				
 				foreach (var spawnConfig in cardConfig.Spawns) {
-					var isMirrored = team.TeamIndex % 2 == 0;
 					var offset = new FVector2(spawnConfig.OffsetX, spawnConfig.OffsetY);
 					if (isMirrored) {
 						offset *= -1;

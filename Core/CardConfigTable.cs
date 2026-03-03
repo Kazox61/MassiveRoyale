@@ -111,6 +111,7 @@ public static class CardConfigTable {
 		new CardConfig {
 			Name = "Arrows",
 			Cost = 3,
+			AllowOtherSideSpawn = true,
 			Spawns = [
 				new SpellConfig {
 					Radius = 4.ToFP(),
@@ -124,6 +125,7 @@ public static class CardConfigTable {
 public class CardConfig {
 	public string Name;
 	public int Cost;
+	public bool AllowOtherSideSpawn;
 	public SpawnConfig[] Spawns;
 }
 

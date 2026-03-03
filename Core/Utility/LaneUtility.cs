@@ -4,10 +4,10 @@ using MassiveRoyale.Core.Components;
 namespace MassiveRoyale.Core;
 
 public class LaneUtility {
-	public static FVector2 LeftBridgeTop = new(3.5.ToFP(), 13.5.ToFP());
-	public static FVector2 LeftBridgeBottom = new(3.5.ToFP(), 16.5.ToFP());
-	public static FVector2 RightBridgeTop = new(14.5.ToFP(), 13.5.ToFP());
-	public static FVector2 RightBridgeBottom = new(14.5.ToFP(), 16.5.ToFP());
+	public static FVector2 LeftBridgeTop = new(3.5.ToFP(), 14.ToFP());
+	public static FVector2 LeftBridgeBottom = new(3.5.ToFP(), 16.ToFP());
+	public static FVector2 RightBridgeTop = new(14.5.ToFP(), 14.ToFP());
+	public static FVector2 RightBridgeBottom = new(14.5.ToFP(), 16.ToFP());
 	
 	public static FP LineGateWidth = FP.One;
 
