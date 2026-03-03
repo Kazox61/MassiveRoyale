@@ -36,9 +36,12 @@ public partial class TransformViewBehavior : EntityBehaviour {
 		}
 		
 		var transform = _transforms.Get(_entity.Id);
+		var isMirrored = ClientGame.Instance.LocalPlayerChannel % 2 == 0;
+		var positionX = isMirrored ? GameConfig.BoardFieldWidth.ToFP() - transform.Position.X : transform.Position.X;
+		var positionY = isMirrored ? GameConfig.BoardFieldHeight.ToFP() - transform.Position.Y : transform.Position.Y;
 		_targetNode.Position = new Vector2(
-			transform.Position.X.ToFloat() * GameConfig.PixelPerField,
-			transform.Position.Y.ToFloat() * GameConfig.PixelPerField
+			positionX.ToFloat() * GameConfig.PixelPerField,
+			positionY.ToFloat() * GameConfig.PixelPerField
 		);
 		
 		if (_targetAnimatedSprite == null) {

@@ -31,7 +31,12 @@ public class SpawnTroopSystem : CoreSystem, IUpdate {
 				player.Elixir -= cardConfig.Cost.ToFP();
 				
 				foreach (var spawnConfig in cardConfig.Spawns) {
-					var spawnPosition = position + new FVector2(spawnConfig.OffsetX, spawnConfig.OffsetY);
+					var isMirrored = team.TeamIndex % 2 == 0;
+					var offset = new FVector2(spawnConfig.OffsetX, spawnConfig.OffsetY);
+					if (isMirrored) {
+						offset *= -1;
+					}
+					var spawnPosition = position + offset;
 					
 					if (spawnConfig is TroopConfig troopConfig) {
 						CreateTroop(team, spawnPosition, troopConfig);

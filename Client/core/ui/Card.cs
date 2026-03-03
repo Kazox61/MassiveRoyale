@@ -29,7 +29,8 @@ public partial class Card : DraggableCard {
 			
 			GetTree().Root.AddChild(tmpBody);
 			var field = WorldToField(worldPosition);
-			tmpBody.GlobalPosition = FieldToWorld(new Vector2(field.X, field.Y) + new Vector2(spawn.OffsetX.ToFloat(), spawn.OffsetY.ToFloat()));
+			var offset = new Vector2(spawn.OffsetX.ToFloat(), spawn.OffsetY.ToFloat());
+			tmpBody.GlobalPosition = FieldToWorld(new Vector2(field.X, field.Y) + offset);
 			_tmpBodies[i] = tmpBody;
 		}
 	}
@@ -44,7 +45,8 @@ public partial class Card : DraggableCard {
 			var spawn = _cardConfig.Spawns[i];
 			var tmpBody = _tmpBodies[i];
 			var field = WorldToField(worldPosition);
-			tmpBody.GlobalPosition = FieldToWorld(new Vector2(field.X, field.Y) + new Vector2(spawn.OffsetX.ToFloat(), spawn.OffsetY.ToFloat()));
+			var offset = new Vector2(spawn.OffsetX.ToFloat(), spawn.OffsetY.ToFloat());
+			tmpBody.GlobalPosition = FieldToWorld(new Vector2(field.X, field.Y) + offset);
 		}
 	}
 
@@ -62,11 +64,15 @@ public partial class Card : DraggableCard {
 		var worldPosition = GetViewport().GetCanvasTransform().AffineInverse() * screenPosition;
 		var field = WorldToField(worldPosition);
 		
+		var isMirrored = ClientGame.Instance.LocalPlayerChannel % 2 == 0;
+		var fieldX = isMirrored ? GameConfig.BoardFieldWidth - field.X - 1 : field.X;
+		var fieldY = isMirrored ? GameConfig.BoardFieldHeight - field.Y - 1 : field.Y;
+		
 		_clientGame.Client.Session.Inputs.AppendPredictionEvent(
 			_clientGame.LocalPlayerChannel,
 			new PlayerInput {
-				FieldX = field.X,
-				FieldY = field.Y,
+				FieldX = fieldX,
+				FieldY = fieldY,
 				CardIndex = Index
 			}
 		);
