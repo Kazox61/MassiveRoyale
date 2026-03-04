@@ -6,13 +6,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Massive", "massive-ecs\Runtime\Massive.csproj", "{C001A31C-3764-4A9F-A0B1-76CC46BB8523}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassiveNetcode", "massive-netcode\Runtime\MassiveNetcode.csproj", "{D9D11EF1-A838-4B04-8B8B-99B484990786}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassiveNetcode", "massive-netcode\Runtime\Massive.Netcode.csproj", "{D9D11EF1-A838-4B04-8B8B-99B484990786}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixedPoint", "fixed-point\Runtime\FixedPoint.csproj", "{BCEF6057-67F6-4AD7-AFF4-F25D71A23B33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassiveSerialization", "massive-serialization\Runtime\MassiveSerialization.csproj", "{38F915E7-A13B-4A29-856C-AE29E81E9CCB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassiveSerialization", "massive-serialization\Runtime\Massive.Serialization.csproj", "{38F915E7-A13B-4A29-856C-AE29E81E9CCB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassiveQol", "massive-qol\Runtime\MassiveQol.csproj", "{BD182168-CCAC-4874-9F9A-139AAC8125A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassiveQol", "massive-qol\Runtime\Massive.QoL.csproj", "{BD182168-CCAC-4874-9F9A-139AAC8125A3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassiveCommon", "MassiveCommon\MassiveCommon.csproj", "{00262470-277A-4EB6-A7DC-CB0769677B89}"
 EndProject

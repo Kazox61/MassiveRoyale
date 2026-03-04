@@ -10,9 +10,9 @@
     <ItemGroup>
       <ProjectReference Include="..\fixed-point\Runtime\FixedPoint.csproj" />
       <ProjectReference Include="..\massive-ecs\Runtime\Massive.csproj" />
-      <ProjectReference Include="..\massive-netcode\Runtime\MassiveNetcode.csproj" />
-      <ProjectReference Include="..\massive-qol\Runtime\MassiveQol.csproj" />
-      <ProjectReference Include="..\massive-serialization\Runtime\MassiveSerialization.csproj" />
+      <ProjectReference Include="..\massive-netcode\Runtime\Massive.Netcode.csproj" />
+      <ProjectReference Include="..\massive-qol\Runtime\Massive.QoL.csproj" />
+      <ProjectReference Include="..\massive-serialization\Runtime\Massive.Serialization.csproj" />
       <ProjectReference Include="..\MassiveCommon\MassiveCommon.csproj" />
     </ItemGroup>
 
