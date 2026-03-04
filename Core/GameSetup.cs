@@ -13,7 +13,9 @@ public class GameSetup : IGameSetup {
 			.New<TargetApproachSystem>()
 			.New<DetectionSystem>()
 			.New<AttackProgressSystem>()
+			.New<HitSystem>()
 			.New<DamageSystem>()
-			.New<SeparationSystem>();
+			.New<SeparationSystem>()
+			.New<TrackingProjectileSystem>();
 	}
 }

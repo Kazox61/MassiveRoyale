@@ -22,7 +22,7 @@ public class DetectionSystem : CoreSystem, IUpdate {
 			var teamIndex = team.TeamIndex;
 			var currentPosition = transform.Position;
 			var detectionRangeValue = detectionRange.Value;
-			var targetElevationLayer = nextAttack.TargetElevationLayer;
+			var targetElevationLayer = nextAttack.HitElevationLayer;
 			
 			var riverY = GameConfig.BoardFieldHeightHalf.ToFP();
 			var selfSide = currentPosition.Y >= riverY;

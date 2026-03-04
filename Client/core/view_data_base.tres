@@ -4,11 +4,13 @@
 [ext_resource type="PackedScene" uid="uid://tnjodsxnrsty" path="res://core/troop.tscn" id="1_f1nx3"]
 [ext_resource type="PackedScene" uid="uid://cq5qowhu6bcnt" path="res://core/tower.tscn" id="2_lkixn"]
 [ext_resource type="PackedScene" uid="uid://ch70oh23or4k3" path="res://core/king_tower.tscn" id="3_aclud"]
+[ext_resource type="PackedScene" uid="uid://dc21y56hkibbh" path="res://core/projectile.tscn" id="4_xtg3i"]
 
 [resource]
 script = ExtResource("1_81nct")
 ViewPrefabs = Dictionary[int, PackedScene]({
 1: ExtResource("1_f1nx3"),
 2: ExtResource("2_lkixn"),
-3: ExtResource("3_aclud")
+3: ExtResource("3_aclud"),
+4: ExtResource("4_xtg3i")
 })

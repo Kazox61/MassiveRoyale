@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dc21y56hkibbh"]
+
+[ext_resource type="Script" uid="uid://q20lhqtox0l3" path="res://addons/massive-godot-integration/view_synchronizer/EntityView.cs" id="1_1pbr4"]
+[ext_resource type="Script" uid="uid://dws04gt5wbv62" path="res://core/view_behavior/TransformViewBehavior.cs" id="2_qgljb"]
+[ext_resource type="Texture2D" uid="uid://cvtllpyd13kos" path="res://icon.svg" id="3_qgljb"]
+
+[node name="Projectile" type="Node2D" unique_id=1843424101 node_paths=PackedStringArray("_entityBehaviours")]
+script = ExtResource("1_1pbr4")
+_entityBehaviours = [NodePath("TransformBehavior")]
+
+[node name="TransformBehavior" type="Node" parent="." unique_id=1427061522 node_paths=PackedStringArray("_targetNode")]
+script = ExtResource("2_qgljb")
+_targetNode = NodePath("..")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1984587805]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("3_qgljb")

@@ -7,7 +7,44 @@ using MassiveRoyale.Core.Input;
 
 namespace MassiveRoyale.Core;
 
-public class SpawnTroopSystem : CoreSystem, IUpdate {
+public class SpawnTroopSystem : CoreSystem, IFirstTick, IUpdate {
+	public static FVector2 RedLeftTowerPosition = new FVector2(3.5.ToFP(), 5.5.ToFP());
+	public static FVector2 RedRightTowerPosition = new FVector2(14.5.ToFP(), 5.5.ToFP());
+	public static FVector2 RedKingTowerPosition = new FVector2(9.ToFP(), 2.ToFP());
+	public static FVector2 BlueLeftTowerPosition = new FVector2(3.5.ToFP(), 24.5.ToFP());
+	public static FVector2 BlueRightTowerPosition = new FVector2(14.5.ToFP(), 24.5.ToFP());
+	public static FVector2 BlueKingTowerPosition = new FVector2(9.ToFP(), 28.ToFP());
+
+	public void FirstTick() {
+		var tower = new BuildingConfig {
+			Health = 1400,
+			DetectionRange = 7.5.ToFP(),
+			AttackRange = 7.5.ToFP(),
+			AttackDamage = 50,
+			AttackInterval = 0.8.ToFP(),
+			AttackTargetLayer = ElevationLayer.GroundAir,
+			AssetId = 2
+		};
+		var mainTower = new BuildingConfig {
+			Health = 2400,
+			DetectionRange = 7.ToFP(),
+			AttackRange = 7.ToFP(),
+			AttackDamage = 50,
+			AttackInterval = FP.One,
+			AttackTargetLayer = ElevationLayer.GroundAir,
+			AssetId = 3
+		};
+		
+		CreateBuilding(StartSystem.RedTeam, RedLeftTowerPosition, tower).Add<Tower>();
+		CreateBuilding(StartSystem.RedTeam, RedRightTowerPosition, tower).Add<Tower>();
+		
+		CreateBuilding(StartSystem.BlueTeam, BlueLeftTowerPosition, tower).Add<Tower>();
+		CreateBuilding(StartSystem.BlueTeam, BlueRightTowerPosition, tower).Add<Tower>();
+		
+		CreateBuilding(StartSystem.RedTeam, RedKingTowerPosition, mainTower).Add<Tower>();
+		CreateBuilding(StartSystem.BlueTeam, BlueKingTowerPosition, mainTower).Add<Tower>();
+	}
+	
 	public void Update() {
 		var players = World.DataSet<Player>();
 		
@@ -67,8 +104,8 @@ public class SpawnTroopSystem : CoreSystem, IUpdate {
 					}
 					
 					if (spawnConfig is SpellConfig spellConfig) {
-						World.ForEach((Entity entity, ref Team otherTeam, ref Transform transform) => {
-							if (otherTeam.TeamIndex != team.TeamIndex && FVector2.LengthSqr(transform.Position - spawnPosition) <= spellConfig.Radius * spellConfig.Radius) {
+						World.ForEach((Entity entity, ref Team otherTeam, ref Transform transform, ref Hitbox hitbox) => {
+							if (otherTeam.TeamIndex != team.TeamIndex && Area.Overlaps(spawnPosition, spellConfig.Radius, transform.Position, hitbox.Radius)) {
 								World.CreateEntity(new Damage {
 									Value = spellConfig.Damage,
 									TargetEntifier = entity.Entifier
@@ -93,7 +130,16 @@ public class SpawnTroopSystem : CoreSystem, IUpdate {
 		entity.Set(new Transform { Position = field });
 		entity.Set(new Hitbox { Radius = config.HitboxRadius, ElevationLayer = config.HitboxLayer });
 		entity.Set(new DetectionRange { Value = config.DetectionRange });
-		entity.Set(new NextAttack { Range = config.AttackRange, Damage = config.AttackDamage, Interval = config.AttackInterval, TargetElevationLayer = config.AttackTargetLayer, TargetsOnlyBuildings = config.TargetsOnlyBuildings });
+		entity.Set(new NextAttack {
+			Range = config.AttackRange,
+			IsMelee = config.AttackRange <= FP.One,
+			IsSplash = false,
+			SplashRadius = FP.Zero,
+			Damage = config.AttackDamage,
+			Interval = config.AttackInterval,
+			HitElevationLayer = config.AttackTargetLayer,
+			TargetsOnlyBuildings = config.TargetsOnlyBuildings
+		});
 		entity.Set(new Movement { Speed = config.Speed });
 		entity.Set(new PushWeight { Value = config.PushWeight });
 		entity.Set(new Health { Current = config.Health.ToFP(), Max = config.Health.ToFP() });
@@ -106,7 +152,15 @@ public class SpawnTroopSystem : CoreSystem, IUpdate {
 		entity.Set(new Transform { Position = field });
 		entity.Set(new Hitbox { Radius = config.HitboxRadius, ElevationLayer = config.HitboxLayer });
 		entity.Set(new DetectionRange { Value = config.DetectionRange });
-		entity.Set(new NextAttack { Range = config.AttackRange, Interval = config.AttackInterval, Damage = config.AttackDamage, TargetElevationLayer = config.AttackTargetLayer });
+		entity.Set(new NextAttack {
+			Range = config.AttackRange, 
+			IsMelee = config.AttackRange <= FP.One,
+			IsSplash = false,
+			SplashRadius = FP.Zero,
+			Damage = config.AttackDamage,
+			Interval = config.AttackInterval,
+			HitElevationLayer = config.AttackTargetLayer
+		});
 		entity.Set(new PushWeight { Value = 0 });
 		entity.Set(new Health { Current = config.Health.ToFP(), Max = config.Health.ToFP() });
 		entity.Set(new ViewAsset(config.AssetId));

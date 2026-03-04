@@ -1,7 +1,6 @@
 ﻿using Fixed64;
 using Massive;
 using Massive.Netcode;
-using Massive.QoL;
 using MassiveRoyale.Core.Components;
 
 namespace MassiveRoyale.Core;
@@ -11,57 +10,9 @@ public class StartSystem : CoreSystem, IFirstTick {
 	public static Team BlueTeam = new Team { TeamIndex = 1, Direction = -1 };
 	public static Team[] Teams = [RedTeam, BlueTeam];
 	
-	public static FVector2 RedLeftTowerPosition = new FVector2(3.5.ToFP(), 5.5.ToFP());
-	public static FVector2 RedRightTowerPosition = new FVector2(14.5.ToFP(), 5.5.ToFP());
-	public static FVector2 RedKingTowerPosition = new FVector2(9.ToFP(), 2.ToFP());
-	public static FVector2 BlueLeftTowerPosition = new FVector2(3.5.ToFP(), 24.5.ToFP());
-	public static FVector2 BlueRightTowerPosition = new FVector2(14.5.ToFP(), 24.5.ToFP());
-	public static FVector2 BlueKingTowerPosition = new FVector2(9.ToFP(), 28.ToFP());
-	
 	public void FirstTick() {
 		CreatePlayer(RedTeam);
 		CreatePlayer(BlueTeam);
-
-		var tower = new BuildingConfig {
-			Health = 1400,
-			DetectionRange = 7.5.ToFP(),
-			AttackRange = 7.5.ToFP(),
-			AttackDamage = 50,
-			AttackInterval = 0.8.ToFP(),
-			AttackTargetLayer = ElevationLayer.GroundAir,
-			AssetId = 2
-		};
-		var mainTower = new BuildingConfig {
-			Health = 2400,
-			DetectionRange = 7.ToFP(),
-			AttackRange = 7.ToFP(),
-			AttackDamage = 50,
-			AttackInterval = FP.One,
-			AttackTargetLayer = ElevationLayer.GroundAir,
-			AssetId = 3
-		};
-		
-		CreateBuilding(RedTeam, RedLeftTowerPosition, tower).Add<Tower>();
-		CreateBuilding(RedTeam, RedRightTowerPosition, tower).Add<Tower>();
-		
-		CreateBuilding(BlueTeam, BlueLeftTowerPosition, tower).Add<Tower>();
-		CreateBuilding(BlueTeam, BlueRightTowerPosition, tower).Add<Tower>();
-		
-		CreateBuilding(RedTeam, RedKingTowerPosition, mainTower).Add<Tower>();
-		CreateBuilding(BlueTeam, BlueKingTowerPosition, mainTower).Add<Tower>();
-	}
-	
-	private Entity CreateBuilding(Team team, FVector2 field, BuildingConfig config) {
-		var entity = World.CreateEntity(new Building());
-		entity.Set(team);
-		entity.Set(new Transform { Position = field });
-		entity.Set(new Hitbox { Radius = config.HitboxRadius, ElevationLayer = config.HitboxLayer });
-		entity.Set(new DetectionRange { Value = config.DetectionRange });
-		entity.Set(new NextAttack { Range = config.AttackRange, Interval = config.AttackInterval, Damage = config.AttackDamage, TargetElevationLayer = config.AttackTargetLayer });
-		entity.Set(new PushWeight { Value = 0 });
-		entity.Set(new Health { Current = config.Health.ToFP(), Max = config.Health.ToFP() });
-		entity.Set(new ViewAsset(config.AssetId));
-		return entity;
 	}
 
 	private Entity CreatePlayer(Team team) {
