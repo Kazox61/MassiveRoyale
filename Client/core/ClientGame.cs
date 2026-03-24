@@ -36,8 +36,9 @@ public partial class ClientGame : Node2D {
 
 	private void JoinGame() {
 		JoinButton.Hide();
-		
-		Client = new Massive.Netcode.Client(new SessionConfig(), new TcpConnection(), 0.1);
+
+		var connection = new TcpConnection();
+		Client = new Massive.Netcode.Client(new SessionConfig(), connection);
 		Client.InputIdentifiers.RegisterAutomaticallyFromAllAssemblies();
 
 		GameSetup = new GameSetup();
@@ -52,7 +53,7 @@ public partial class ClientGame : Node2D {
 
 		// basicSimulation.Initialize();
 
-		Client.Connection.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 6348));
+		connection.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 6348));
 	}
 
 	public override void _PhysicsProcess(double delta) {

@@ -6,8 +6,11 @@ public class ServerGame {
 	public Server Server { get; private set; }
 	public double Time { get; private set; }
 
+	private TcpConnectionsListener _listener;
+
 	public ServerGame() {
-		Server = new Server(new SessionConfig(), new TcpConnectionsListener(6348));
+		_listener = new TcpConnectionsListener(6348);
+		Server = new Server(new SessionConfig(), _listener);
 	}
 
 	public void Start() {
@@ -23,9 +26,9 @@ public class ServerGame {
 
 		// basicSimulation.Initialize();
 
-		Server.ConnectionListener.Start();
+		_listener.Start();
 	}
-	
+
 	public void Update(double delta) {
 		Time += delta;
 		Server.Update(Time);
